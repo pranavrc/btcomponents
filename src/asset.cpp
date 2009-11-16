@@ -35,7 +35,13 @@ REGISTER_OBJECTTYPE(Asset)
 Asset::Asset(QObject * parent)
     : Gluon::Asset(parent)
 {
+    d = new AssetPrivate;
     qRegisterMetaType<btNode*>("btNode*");
+}
+
+Asset::~Asset()
+{
+    delete(d);
 }
 
 Asset *

@@ -26,6 +26,11 @@ REGISTER_OBJECTTYPE(Tree)
 
 Tree::Tree(QObject * parent)
 {
+    d = new TreePrivate();
+}
+
+Tree::~Tree()
+{
 }
 
 Tree *

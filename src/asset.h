@@ -37,6 +37,7 @@ namespace BehaviorTree
         
         public:
             Asset(QObject *parent = 0);
+            ~Asset();
             
             virtual Asset * instantiate();
             

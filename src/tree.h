@@ -36,6 +36,7 @@ namespace BehaviorTree
         
         public:
             Tree(QObject * parent = 0);
+            ~Tree();
             
             void update(int elapsedMilliseconds);
             

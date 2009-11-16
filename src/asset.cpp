@@ -38,6 +38,12 @@ Asset::Asset(QObject * parent)
     qRegisterMetaType<btNode*>("btNode*");
 }
 
+Asset *
+Asset::instantiate()
+{
+    return new Asset(this);
+}
+
 void
 Asset::setFile(const QString &newFile)
 {

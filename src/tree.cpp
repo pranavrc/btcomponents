@@ -24,6 +24,16 @@ using namespace BehaviorTree;
 
 REGISTER_OBJECTTYPE(Tree)
 
+Tree::Tree(QObject * parent)
+{
+}
+
+Tree *
+Tree::instantiate()
+{
+    return new Tree(this);
+}
+
 void Tree::update(int elapsedMilliseconds)
 {
     Q_UNUSED(elapsedMilliseconds)

@@ -38,6 +38,8 @@ namespace BehaviorTree
         public:
             Asset(QObject *parent = 0);
             
+            virtual Asset * instantiate();
+            
             virtual void setFile(const QString &newFile);
             
             QMap<QString, QVariant> behaviorTrees() const;

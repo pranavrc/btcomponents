@@ -35,7 +35,11 @@ namespace BehaviorTree
         Q_PROPERTY(btNode * behaviorTree READ behaviorTree WRITE setBehaviorTree)
         
         public:
+            Tree(QObject * parent = 0);
+            
             void update(int elapsedMilliseconds);
+            
+            virtual Tree * instantiate();
             
             void setBehaviorTree(btNode* newBehaviorTree);
             btNode* behaviorTree() const;

@@ -28,9 +28,9 @@
 
 Q_DECLARE_METATYPE(btNode*)
 
-using namespace BehaviorTree;
+REGISTER_OBJECTTYPE(BehaviorTree,Asset)
 
-REGISTER_OBJECTTYPE(Asset)
+using namespace BehaviorTree;
 
 Asset::Asset(QObject * parent)
     : Gluon::Asset(parent)

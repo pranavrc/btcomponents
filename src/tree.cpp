@@ -20,9 +20,9 @@
 #include "tree.h"
 #include "treeprivate.h"
 
-using namespace BehaviorTree;
+REGISTER_OBJECTTYPE(BehaviorTree,Tree)
 
-REGISTER_OBJECTTYPE(Tree)
+using namespace BehaviorTree;
 
 Tree::Tree(QObject * parent)
 {

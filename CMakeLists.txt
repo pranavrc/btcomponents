@@ -67,3 +67,5 @@ install(TARGETS asset_behaviortree component_behaviortree
     LIBRARY DESTINATION lib/gluon COMPONENT Runtime
     ARCHIVE DESTINATION lib/gluon COMPONENT Devel
 )
+
+add_subdirectory(testapp)

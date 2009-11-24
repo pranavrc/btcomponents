@@ -25,6 +25,7 @@ REGISTER_OBJECTTYPE(BehaviorTree,Tree)
 using namespace BehaviorTree;
 
 Tree::Tree(QObject * parent)
+    : Gluon::Component(parent)
 {
     d = new TreePrivate();
 }

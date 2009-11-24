@@ -1,9 +1,12 @@
 { GameProject(BTTest)
     description string(A test project for the behavior tree components)
-    entrypoint Gluon::GameObject(testTree)
+    entryPoint Gluon::GameObject(testTree)
     { GluonObject(Assets)
         { BehaviorTree::Asset(test-brain)
             file file(test-brain.xml)
+        }
+        { Asset(SomeAsset)
+            file file(nothing.jpg)
         }
     }
     { GameObject(testTree)

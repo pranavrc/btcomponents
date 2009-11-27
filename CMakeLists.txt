@@ -14,16 +14,18 @@ set(btAsset_SRCS
     src/asset.cpp
     )
 
-set(resourceComponent_SRCS
-    )
-
-set(treeComponent_SRCS
+set(treeAsset_SRCS
     src/treeprivate.cpp
     src/tree.cpp
     )
 
+set(characterComponent_SRCS
+	src/characterprivate.cpp
+	src/character.cpp
+    )
 
-qt4_automoc(${btAsset_SRCS} ${resourceComponent_SRCS} ${treeComponent_SRCS})
+
+qt4_automoc(${btAsset_SRCS} ${treeAsset_SRCS} ${characterComponent_SRCS})
 
 find_library(LIBBT
     NAMES
@@ -57,13 +59,13 @@ ADD_DEFINITIONS(-DQT_SHARED)
 add_library(asset_behaviortree SHARED ${btAsset_SRCS})
 target_link_libraries(asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
 
-#add_library(component_resource SHARED ${resourceComponent_SRCS})
-#target_link_libraries(component_resource ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
+add_library(asset_behaviortree_sub SHARED ${treeAsset_SRCS})
+target_link_libraries(asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
 
-add_library(component_behaviortree SHARED ${treeComponent_SRCS})
+add_library(component_behaviortree SHARED ${characterComponent_SRCS})
 target_link_libraries(component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
 
-install(TARGETS asset_behaviortree component_behaviortree
+install(TARGETS asset_behaviortree asset_behaviortree_sub component_behaviortree
     LIBRARY DESTINATION lib/gluon COMPONENT Runtime
     ARCHIVE DESTINATION lib/gluon COMPONENT Devel
 )

@@ -25,28 +25,31 @@
 
 namespace BehaviorTree
 {
-    class BrainPrivate;
-    class Asset;
+    class CharacterPrivate;
+    class Tree;
 
-    class Brain : public Gluon::Component
+    class Character : public Gluon::Component
     {
         Q_OBJECT
         Q_INTERFACES(Gluon::Component)
-        Q_PROPERTY(Asset * brain READ brain WRITE setBrain)
+        //Q_PROPERTY has problems with namespaced types - workaround in constructor, setBrain and brain
+        //Q_PROPERTY(BehaviorTree::Tree* tree READ tree WRITE setTree)
         
         public:
-            Brain(QObject * parent = 0);
-            Brain(const Brain &other, QObject * parent = 0);
-            ~Brain();
+            Character(QObject * parent = 0);
+            Character(const Character &other, QObject * parent = 0);
+            ~Character();
             
-            void setBrain(Asset* newAsset);
-            Asset* brain() const;
+            virtual Character* instantiate();
+            
+            void setTree(Tree* newAsset);
+            Tree* tree() const;
         
         private Q_SLOTS:
-            void brainChanged();
+            void treeReplaced(Tree* newTree);
             
         private:
-            QSharedDataPointer<BrainPrivate> d;
+            QSharedDataPointer<CharacterPrivate> d;
     };
 }
 

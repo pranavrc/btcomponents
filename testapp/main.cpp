@@ -17,5 +17,7 @@ int main(int argc, char** argv)
     btcomponentstestapp foo;
     foo.run(theURL);
     
+    app.quit();
+
     return app.exec();
 }

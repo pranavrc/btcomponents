@@ -25,7 +25,7 @@ REGISTER_OBJECTTYPE(BehaviorTree,Tree)
 using namespace BehaviorTree;
 
 Tree::Tree(QObject * parent)
-    : Gluon::Component(parent)
+    : Gluon::Asset(parent)
 {
     d = new TreePrivate();
 }
@@ -38,11 +38,6 @@ Tree *
 Tree::instantiate()
 {
     return new Tree(this);
-}
-
-void Tree::update(int elapsedMilliseconds)
-{
-    Q_UNUSED(elapsedMilliseconds)
 }
 
 void

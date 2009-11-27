@@ -17,52 +17,24 @@
 
 */
 
-#include "brain.h"
-#include "brainprivate.h"
-#include "asset.h"
+#ifndef BRAINPRIVATE_H
+#define BRAINPRIVATE_H
 
-using namespace BehaviorTree;
+#include <QtCore/QSharedData>
 
-REGISTER_OBJECTTYPE(Brain)
-
-Brain::Brain(QObject * parent)
-    : Component(parent)
+namespace BehaviorTree
 {
-    d = new BrainPrivate;
-}
-
-Brain::Brain(const Brain &other, QObject * parent)
-    : Component(parent)
-    , d(other.d)
-{
-}
-
-Brain::~Brain()
-{
-}
-
-void
-Brain::brainChanged()
-{
-    Asset* theSender = qobject_cast<Asset*>(QObject::sender());
-    if(theSender)
+    class Tree;
+    
+    class CharacterPrivate : public QSharedData
     {
-    }
+        public:
+            CharacterPrivate();
+            CharacterPrivate(const CharacterPrivate &other);
+            ~CharacterPrivate();
+            
+            Tree* tree;
+    };
 }
 
-void
-Brain::setBrain(Asset* newAsset)
-{
-    if(d->behaviorTree)
-        disconnect(d->behaviorTree, SIGNAL(dataChanged()), this, SLOT(btChanged()));
-    d->brain = newAsset;
-    connect(d->behaviorTree, SIGNAL(dataChanged()), this, SLOT(btChanged()));
-}
-
-Asset*
-Brain::brain() const
-{
-    return d->brain;
-}
-
-#include "brain.moc"
+#endif // BRAINPRIVATE_H

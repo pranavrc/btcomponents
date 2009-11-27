@@ -32,7 +32,6 @@ namespace BehaviorTree
         Q_OBJECT
         public:
             btBrain* brain;
-            QMap<QString, QVariant> behaviorTrees;
     };
 }
 

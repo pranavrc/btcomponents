@@ -17,21 +17,50 @@
 
 */
 
-#include "brainprivate.h"
-#include "asset.h"
+#include "character.h"
+#include "characterprivate.h"
+#include "tree.h"
+
+REGISTER_OBJECTTYPE(BehaviorTree,Character)
 
 using namespace BehaviorTree;
 
-BrainPrivate::BrainPrivate()
+Character::Character(QObject * parent)
+    : Component(parent)
+{
+    d = new CharacterPrivate;
+}
+
+Character::Character(const Character &other, QObject * parent)
+    : Component(parent)
+    , d(other.d)
 {
 }
 
-BrainPrivate::BrainPrivate(const BrainPrivate &other)
-    : QSharedData(other)
-    , brain(other.brain)
+Character::~Character()
 {
 }
 
-BrainPrivate::~BrainPrivate()
+void
+Character::treeReplaced(Tree* newTree)
 {
+    setTree(newTree);
 }
+
+void
+Character::setTree(Tree* newAsset)
+{
+    if(d->tree)
+        disconnect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
+    d->tree = newAsset;
+    if(d->tree)
+        connect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
+}
+
+Tree*
+Character::tree() const
+{
+    return d->tree;
+}
+
+#include "character.moc"

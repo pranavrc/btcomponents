@@ -33,7 +33,6 @@ namespace BehaviorTree
     {
         Q_OBJECT
         Q_INTERFACES(Gluon::Asset)
-        Q_PROPERTY(QMap behaviorTrees READ behaviorTrees)
         
         public:
             Asset(QObject *parent = 0);
@@ -42,9 +41,6 @@ namespace BehaviorTree
             virtual Asset * instantiate();
             
             virtual void setFile(const QString &newFile);
-            
-            QMap<QString, QVariant> behaviorTrees() const;
-            btNode* behaviorTree(QString name) const;
             
         private:
             AssetPrivate* d;

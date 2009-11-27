@@ -19,6 +19,7 @@
 
 #include "asset.h"
 #include "assetprivate.h"
+#include "tree.h"
 
 #include <btbrain.h>
 #include <QtCore/QVariant>
@@ -68,27 +69,34 @@ Asset::setFile(const QString &newFile)
     delete(d->brain);
     d->brain = newBrain;
     
-    d->behaviorTrees.clear();
-    int typeID = QMetaType::type("btNode");
+    const QObjectList& oldChildren = children();
+    QList<Tree*> newChildren;
     for(int i = 0; i < newBrain->behaviorTreesCount(); ++i)
-       d->behaviorTrees[newBrain->getBehaviorTree(i)->name()] = QVariant(typeID, newBrain->getBehaviorTree(i));
+    {
+        Tree* newTree = new Tree(this);
+        newTree->setBehaviorTree(newBrain->getBehaviorTree(i));
+        newChildren.append(newTree);
+    }
+    
+    // Run through all old children
+    foreach(QObject* oldChild, oldChildren)
+    {
+        Tree* theNewChild = NULL;
+        Tree* theOldChild = qobject_cast<Tree*>(oldChild);
+        // Find a tree with the same name in the new children
+        foreach(Tree* newChild, newChildren)
+        {
+            if(newChild->name() == theOldChild->name())
+                theNewChild = newChild;
+        }
+        // Tell old child that new child is the tree that should be used
+        // If no new child could be found, inform the oldChild that it should be removed
+        emit theOldChild->treeChanged(theNewChild);
+    }
+    
+    qDeleteAll(oldChildren);
     
     Gluon::Asset::setFile(newFile);
-}
-
-QMap<QString, QVariant>
-Asset::behaviorTrees() const
-{
-    return d->behaviorTrees;
-}
-
-btNode*
-Asset::behaviorTree(QString name) const
-{
-    QVariant variant = d->behaviorTrees[name];
-    if(variant.canConvert<btNode*>())
-        return qVariantValue<btNode*>(d->behaviorTrees[name]);
-    return NULL;
 }
 
 Q_EXPORT_PLUGIN2(asset_behaviortree, BehaviorTree::Asset)

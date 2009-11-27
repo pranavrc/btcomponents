@@ -17,24 +17,21 @@
 
 */
 
-#ifndef BRAINPRIVATE_H
-#define BRAINPRIVATE_H
+#include "characterprivate.h"
+#include "asset.h"
 
-#include <QtCore/QSharedData>
+using namespace BehaviorTree;
 
-namespace BehaviorTree
+CharacterPrivate::CharacterPrivate()
 {
-    class Asset;
-    
-    class BrainPrivate : public QSharedData
-    {
-        public:
-            BrainPrivate();
-            BrainPrivate(const BrainPrivate &other);
-            ~BrainPrivate();
-            
-            Asset* brain;
-    };
 }
 
-#endif // BRAINPRIVATE_H
+CharacterPrivate::CharacterPrivate(const CharacterPrivate &other)
+    : QSharedData(other)
+    , tree(other.tree)
+{
+}
+
+CharacterPrivate::~CharacterPrivate()
+{
+}

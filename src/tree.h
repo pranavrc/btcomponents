@@ -21,29 +21,33 @@
 #define BEHAVIORTREE_TREE_H
 
 #include "bt_export.h"
-#include <gluon/component.h>
+#include <gluon/asset.h>
 #include <btnode.h>
 
 namespace BehaviorTree
 {
+    class Asset;
     class TreePrivate;
     
-    class BTCOMPONENT_EXPORT Tree : public Gluon::Component
+    class BTCOMPONENT_EXPORT Tree : public Gluon::Asset
     {
         Q_OBJECT
-        Q_INTERFACES(Gluon::Component)
-        Q_PROPERTY(btNode * behaviorTree READ behaviorTree WRITE setBehaviorTree)
+        Q_INTERFACES(Gluon::Asset)
+        Q_PROPERTY(btNode* behaviorTree READ behaviorTree WRITE setBehaviorTree)
         
         public:
+            friend class BehaviorTree::Asset;
+            
             Tree(QObject * parent = 0);
             ~Tree();
-            
-            void update(int elapsedMilliseconds);
             
             virtual Tree * instantiate();
             
             void setBehaviorTree(btNode* newBehaviorTree);
             btNode* behaviorTree() const;
+            
+        Q_SIGNALS:
+            void treeChanged(Tree* newTree);
             
         private:
             QSharedDataPointer<TreePrivate> d;

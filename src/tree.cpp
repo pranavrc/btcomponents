@@ -52,7 +52,6 @@ Tree::behaviorTree() const
     return d->behaviorTree;
 }
 
-Q_EXPORT_PLUGIN2(component_behaviortree, BehaviorTree::Tree)
-
+Q_EXPORT_PLUGIN2(asset_behaviortree, BehaviorTree::Tree)
 
 #include "tree.moc"

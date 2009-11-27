@@ -50,7 +50,7 @@ namespace BehaviorTree
             void treeChanged(Tree* newTree);
             
         private:
-            QSharedDataPointer<TreePrivate> d;
+            TreePrivate* d;
     };
 }
 

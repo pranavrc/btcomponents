@@ -41,6 +41,12 @@ Character::~Character()
 {
 }
 
+Character*
+Character::instantiate()
+{
+    return new Character(this);
+}
+
 void
 Character::treeReplaced(Tree* newTree)
 {
@@ -62,5 +68,7 @@ Character::tree() const
 {
     return d->tree;
 }
+
+Q_EXPORT_PLUGIN2(component_behaviortree, BehaviorTree::Character)
 
 #include "character.moc"

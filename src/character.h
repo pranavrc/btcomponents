@@ -22,13 +22,14 @@
 
 #include <component.h>
 #include <btbrain.h>
+#include "bt_export.h"
 
 namespace BehaviorTree
 {
     class CharacterPrivate;
     class Tree;
 
-    class Character : public Gluon::Component
+    class BTCOMPONENT_EXPORT Character : public Gluon::Component
     {
         Q_OBJECT
         Q_INTERFACES(Gluon::Component)

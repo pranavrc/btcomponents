@@ -22,16 +22,4 @@
 
 using namespace BehaviorTree;
 
-TreePrivate::TreePrivate()
-{
-}
-
-TreePrivate::TreePrivate(const TreePrivate &other)
-    : QSharedData(other)
-    , behaviorTree(other.behaviorTree)
-{
-}
-
-TreePrivate::~TreePrivate()
-{
-}
+#include "treeprivate.moc"

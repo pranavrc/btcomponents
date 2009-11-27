@@ -56,18 +56,22 @@ ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
 
-add_library(asset_behaviortree SHARED ${btAsset_SRCS})
-target_link_libraries(asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
+add_library(gluon_plugin_asset_behaviortree_sub SHARED ${treeAsset_SRCS})
+target_link_libraries(gluon_plugin_asset_behaviortree_sub ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
 
-add_library(asset_behaviortree_sub SHARED ${treeAsset_SRCS})
-target_link_libraries(asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
+add_library(gluon_plugin_asset_behaviortree SHARED ${btAsset_SRCS})
+target_link_libraries(gluon_plugin_asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib gluon_plugin_asset_behaviortree_sub)
 
-add_library(component_behaviortree SHARED ${characterComponent_SRCS})
-target_link_libraries(component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
+add_library(gluon_plugin_component_behaviortree SHARED ${characterComponent_SRCS})
+target_link_libraries(gluon_plugin_component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
 
-install(TARGETS asset_behaviortree asset_behaviortree_sub component_behaviortree
-    LIBRARY DESTINATION lib/gluon COMPONENT Runtime
-    ARCHIVE DESTINATION lib/gluon COMPONENT Devel
+install(
+    TARGETS
+        gluon_plugin_asset_behaviortree
+        gluon_plugin_asset_behaviortree_sub
+        gluon_plugin_component_behaviortree
+    LIBRARY DESTINATION lib COMPONENT Runtime
+    ARCHIVE DESTINATION lib COMPONENT Devel
 )
 
 add_subdirectory(testapp)

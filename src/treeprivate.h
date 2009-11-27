@@ -20,19 +20,16 @@
 #ifndef BEHAVIORTREE_TREEPRIVATE_H
 #define BEHAVIORTREE_TREEPRIVATE_H
 
-#include <QtCore/QSharedData>
+#include <QtCore/QObject>
 
 class btNode;
 
 namespace BehaviorTree
 {
-    class TreePrivate : public QSharedData
+    class TreePrivate : public QObject
     {
+        Q_OBJECT
         public:
-            TreePrivate();
-            TreePrivate(const TreePrivate &other);
-            ~TreePrivate();
-            
             btNode* behaviorTree;
     };
 }

@@ -22,4 +22,14 @@
 
 using namespace BehaviorTree;
 
+TreePrivate::TreePrivate(QObject * parent)
+    : QObject(parent)
+{
+    behaviorTree = NULL;
+}
+
+TreePrivate::~TreePrivate()
+{
+}
+
 #include "treeprivate.moc"

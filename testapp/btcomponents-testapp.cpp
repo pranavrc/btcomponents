@@ -26,10 +26,11 @@ btcomponentstestapp::run(QUrl gdlFile)
     Gluon::Game::instance()->setParent(QCoreApplication::instance());
     Gluon::Game::instance()->setGameProject(gameProject);
     
+    //qDebug() << "The gameProject turned into GDL:" << gameProject->toGDL();
+    
     // Run the game at severely reduced speed (one frame per second) so we can
     // actually see what's happening
     Gluon::Game::instance()->runGameFixedTimestep(1);
-    //qDebug() << "The gameProject turned into GDL:" << gameProject->toGDL();
 }
 
 #include "btcomponents-testapp.moc"

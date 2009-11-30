@@ -30,6 +30,9 @@ namespace BehaviorTree
     {
         Q_OBJECT
         public:
+            TreePrivate(QObject * parent = 0);
+            ~TreePrivate();
+            
             btNode* behaviorTree;
     };
 }

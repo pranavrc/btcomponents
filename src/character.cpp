@@ -18,12 +18,13 @@
 */
 
 #include <QtCore/QVariant>
-#include <QtCore/QDebug>
+#include <debughelper.h>
 #include "character.h"
 #include "characterprivate.h"
 #include "tree.h"
 
 Q_DECLARE_METATYPE(BehaviorTree::Tree*)
+Q_DECLARE_METATYPE(Gluon::GluonObject*)
 
 REGISTER_OBJECTTYPE(BehaviorTree,Character)
 
@@ -35,10 +36,7 @@ Character::Character(QObject * parent)
     d = new CharacterPrivate;
     
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
-    QVariant somethingEmpty;
-    Tree * theObject = NULL;
-    somethingEmpty.setValue<Tree*>(theObject);
-    setProperty("entryPoint", somethingEmpty);
+    setTree(NULL);
 }
 
 Character::Character(const Character &other, QObject * parent)
@@ -60,7 +58,7 @@ Character::instantiate()
 void
 Character::update(int elapsedMilliseconds)
 {
-    qDebug() << "Updating Character";
+    debug(QString("Updating Character"));
     if(autoThink())
         think();
     Component::update(elapsedMilliseconds);
@@ -69,17 +67,29 @@ Character::update(int elapsedMilliseconds)
 bool
 Character::think()
 {
-    qDebug() << "Thinking...";
-    if(tree()->behaviorTree()->runBehavior())
+    debug(QString("Thinking..."));
+    QString debugText;
+    if(tree())
     {
-        qDebug() << "Thought successfully!";
-        // SUCCESS!!
+        if(tree()->behaviorTree())
+        {
+            if(tree()->behaviorTree()->runBehavior())
+            {
+                debugText += "Thought successfully!";
+                // SUCCESS!!
+            }
+            else
+            {
+                debugText += "Failed at thinking :P";
+                // FAILURE!
+            }
+        }
+        else
+            debugText += "Thinking not possible - behavoirTree not set!";
     }
     else
-    {
-        qDebug() << "Failed at thinking :P";
-        // FAILURE!
-    }
+        debugText += "Thinking not possible - no tree!";
+    debug(debugText);
 }
 
 void
@@ -91,6 +101,9 @@ Character::treeReplaced(Tree* newTree)
 void
 Character::setTree(Tree* newAsset)
 {
+    DEBUG_BLOCK
+    if(newAsset) { DEBUG_TEXT(QString("Setting tree to %1").arg(newAsset->name())) }
+
     if(d->tree)
         disconnect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
     d->tree = newAsset;
@@ -106,7 +119,17 @@ Character::setTree(Tree* newAsset)
 Tree*
 Character::tree() const
 {
-    return d->tree;
+    //return d->tree;
+    Tree* returnTree = NULL;
+    GluonObject* theTree = this->property("tree").value<GluonObject*>();
+    if(qobject_cast<Tree*>(theTree))
+    {
+        debug(QString("Getting tree: %1").arg(theTree->name()));
+        returnTree = qobject_cast<Tree*>(theTree);
+    }
+    else
+        debug(QString("No tree available"));
+    return returnTree;
 }
 
 void

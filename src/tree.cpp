@@ -19,6 +19,7 @@
 
 #include "tree.h"
 #include "treeprivate.h"
+#include <debughelper.h>
 
 REGISTER_OBJECTTYPE(BehaviorTree,Tree)
 
@@ -27,7 +28,7 @@ using namespace BehaviorTree;
 Tree::Tree(QObject * parent)
     : Gluon::Asset(parent)
 {
-    d = new TreePrivate;
+    d = new TreePrivate(this);
 }
 
 Tree::~Tree()

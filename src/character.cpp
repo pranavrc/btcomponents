@@ -18,6 +18,7 @@
 */
 
 #include <QtCore/QVariant>
+#include <QtCore/QDebug>
 #include "character.h"
 #include "characterprivate.h"
 #include "tree.h"
@@ -59,19 +60,24 @@ Character::instantiate()
 void
 Character::update(int elapsedMilliseconds)
 {
+    qDebug() << "Updating Character";
     if(autoThink())
         think();
+    Component::update(elapsedMilliseconds);
 }
 
 bool
 Character::think()
 {
+    qDebug() << "Thinking...";
     if(tree()->behaviorTree()->runBehavior())
     {
+        qDebug() << "Thought successfully!";
         // SUCCESS!!
     }
     else
     {
+        qDebug() << "Failed at thinking :P";
         // FAILURE!
     }
 }

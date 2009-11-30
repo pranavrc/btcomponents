@@ -63,7 +63,7 @@ add_library(gluon_plugin_asset_behaviortree SHARED ${btAsset_SRCS})
 target_link_libraries(gluon_plugin_asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib gluon_plugin_asset_behaviortree_sub)
 
 add_library(gluon_plugin_component_behaviortree SHARED ${characterComponent_SRCS})
-target_link_libraries(gluon_plugin_component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib)
+target_link_libraries(gluon_plugin_component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_LIBRARY} btlib gluon_plugin_asset_behaviortree_sub)
 
 install(
     TARGETS

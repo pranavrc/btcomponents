@@ -27,7 +27,7 @@ using namespace BehaviorTree;
 Tree::Tree(QObject * parent)
     : Gluon::Asset(parent)
 {
-    d = new TreePrivate();
+    d = new TreePrivate;
 }
 
 Tree::~Tree()

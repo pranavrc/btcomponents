@@ -24,11 +24,14 @@ using namespace BehaviorTree;
 
 CharacterPrivate::CharacterPrivate()
 {
+    tree = NULL;
+    autoThink = true;
 }
 
 CharacterPrivate::CharacterPrivate(const CharacterPrivate &other)
     : QSharedData(other)
     , tree(other.tree)
+    , autoThink(other.autoThink)
 {
 }
 

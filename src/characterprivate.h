@@ -34,6 +34,7 @@ namespace BehaviorTree
             ~CharacterPrivate();
             
             Tree* tree;
+            bool autoThink;
     };
 }
 

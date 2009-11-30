@@ -17,9 +17,12 @@
 
 */
 
+#include <QtCore/QVariant>
 #include "character.h"
 #include "characterprivate.h"
 #include "tree.h"
+
+Q_DECLARE_METATYPE(BehaviorTree::Tree*)
 
 REGISTER_OBJECTTYPE(BehaviorTree,Character)
 
@@ -29,6 +32,12 @@ Character::Character(QObject * parent)
     : Component(parent)
 {
     d = new CharacterPrivate;
+    
+    #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
+    QVariant somethingEmpty;
+    Tree * theObject = NULL;
+    somethingEmpty.setValue<Tree*>(theObject);
+    setProperty("entryPoint", somethingEmpty);
 }
 
 Character::Character(const Character &other, QObject * parent)
@@ -48,6 +57,26 @@ Character::instantiate()
 }
 
 void
+Character::update(int elapsedMilliseconds)
+{
+    if(autoThink())
+        think();
+}
+
+bool
+Character::think()
+{
+    if(tree()->behaviorTree()->runBehavior())
+    {
+        // SUCCESS!!
+    }
+    else
+    {
+        // FAILURE!
+    }
+}
+
+void
 Character::treeReplaced(Tree* newTree)
 {
     setTree(newTree);
@@ -59,6 +88,11 @@ Character::setTree(Tree* newAsset)
     if(d->tree)
         disconnect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
     d->tree = newAsset;
+    
+    QVariant theNewValue;
+    theNewValue.setValue<Tree*>(newAsset);
+    setProperty("tree", theNewValue);
+    
     if(d->tree)
         connect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
 }
@@ -68,6 +102,19 @@ Character::tree() const
 {
     return d->tree;
 }
+
+void
+Character::setAutoThink(bool newAutoThink)
+{
+    d->autoThink = newAutoThink;
+}
+
+bool
+Character::autoThink() const
+{
+    return d->autoThink;
+}
+
 
 Q_EXPORT_PLUGIN2(component_behaviortree, BehaviorTree::Character)
 

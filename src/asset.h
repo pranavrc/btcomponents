@@ -38,9 +38,9 @@ namespace BehaviorTree
             Asset(QObject *parent = 0);
             ~Asset();
             
-            virtual Asset * instantiate();
+            virtual Asset* instantiate();
             
-            virtual void setFile(const QString &newFile);
+            virtual void setFile(const QUrl &newFile);
             
         private:
             AssetPrivate* d;

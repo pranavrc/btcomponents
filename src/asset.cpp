@@ -26,6 +26,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QMap>
+#include <QtCore/QDebug>
 
 Q_DECLARE_METATYPE(btNode*)
 
@@ -52,12 +53,14 @@ Asset::instantiate()
 }
 
 void
-Asset::setFile(const QString &newFile)
+Asset::setFile(const QUrl &newFile)
 {
-    QFile *brainFile = new QFile(newFile);
+    qDebug() << "Attempting to load" << newFile.toLocalFile();
+    QFile *brainFile = new QFile(newFile.toLocalFile());
     if(!brainFile->open(QIODevice::ReadOnly))
         return;
     
+    qDebug() << "File opened, attempting to create brain";
     QTextStream brainReader(brainFile);
     btBrain* newBrain = new btBrain(brainReader.readAll());
     brainFile->close();
@@ -66,7 +69,8 @@ Asset::setFile(const QString &newFile)
     if(!newBrain)
         return;
     
-    delete(d->brain);
+    qDebug() << "Brain loaded, replacing old brain and creating" << newBrain->behaviorTreesCount() << "sub-assets";
+    //delete(d->brain);
     d->brain = newBrain;
     
     const QObjectList& oldChildren = children();
@@ -74,7 +78,9 @@ Asset::setFile(const QString &newFile)
     for(int i = 0; i < newBrain->behaviorTreesCount(); ++i)
     {
         Tree* newTree = new Tree(this);
+        this->addChild(newTree);
         newTree->setBehaviorTree(newBrain->getBehaviorTree(i));
+        newTree->setName(newTree->behaviorTree()->name());
         newChildren.append(newTree);
     }
     
@@ -94,7 +100,9 @@ Asset::setFile(const QString &newFile)
         emit theOldChild->treeChanged(theNewChild);
     }
     
-    qDeleteAll(oldChildren);
+    qDebug() << "Brain successfully loaded! Number of sub-assets created:" << this->children().count();
+    
+//    qDeleteAll(oldChildren);
     
     Gluon::Asset::setFile(newFile);
 }

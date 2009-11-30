@@ -33,6 +33,7 @@ namespace BehaviorTree
     {
         Q_OBJECT
         Q_INTERFACES(Gluon::Component)
+        Q_PROPERTY(bool autoThink READ autoThink WRITE setAutoThink)
         //Q_PROPERTY has problems with namespaced types - workaround in constructor, setBrain and brain
         //Q_PROPERTY(BehaviorTree::Tree* tree READ tree WRITE setTree)
         
@@ -42,9 +43,15 @@ namespace BehaviorTree
             ~Character();
             
             virtual Character* instantiate();
+            virtual void update(int elapsedMilliseconds);
+            
+            bool think();
             
             void setTree(Tree* newAsset);
             Tree* tree() const;
+            
+            void setAutoThink(bool newAutoThink);
+            bool autoThink() const;
         
         private Q_SLOTS:
             void treeReplaced(Tree* newTree);

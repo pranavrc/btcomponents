@@ -12,7 +12,7 @@
     { GameObject(Scene 1)
         { GameObject(Some Game Character)
             { BehaviorTree::Character(Behavior)
-                tree BehaviorTree::Tree(Assets.test-brain.tree1)
+                tree BehaviorTree::Tree(Assets.test-brain.New Tree)
             }
         }
     }

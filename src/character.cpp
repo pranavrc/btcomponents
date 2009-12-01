@@ -58,7 +58,7 @@ Character::instantiate()
 void
 Character::update(int elapsedMilliseconds)
 {
-    debug(QString("Updating Character"));
+    //debug(QString("Updating Character"));
     if(autoThink())
         think();
     Component::update(elapsedMilliseconds);
@@ -67,7 +67,7 @@ Character::update(int elapsedMilliseconds)
 bool
 Character::think()
 {
-    debug(QString("Thinking..."));
+    //debug(QString("Thinking..."));
     QString debugText;
     if(tree())
     {
@@ -89,7 +89,7 @@ Character::think()
     }
     else
         debugText += "Thinking not possible - no tree!";
-    debug(debugText);
+    //debug(debugText);
 }
 
 void
@@ -123,12 +123,7 @@ Character::tree() const
     Tree* returnTree = NULL;
     GluonObject* theTree = this->property("tree").value<GluonObject*>();
     if(qobject_cast<Tree*>(theTree))
-    {
-        debug(QString("Getting tree: %1").arg(theTree->name()));
         returnTree = qobject_cast<Tree*>(theTree);
-    }
-    else
-        debug(QString("No tree available"));
     return returnTree;
 }
 

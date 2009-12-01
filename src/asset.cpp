@@ -55,12 +55,12 @@ Asset::instantiate()
 void
 Asset::setFile(const QUrl &newFile)
 {
-    qDebug() << "Attempting to load" << newFile.toLocalFile();
+    debug(QString("Attempting to load %1").arg(newFile.toLocalFile()));
     QFile *brainFile = new QFile(newFile.toLocalFile());
     if(!brainFile->open(QIODevice::ReadOnly))
         return;
     
-    qDebug() << "File opened, attempting to create brain";
+    debug(QString("File opened, attempting to create brain"));
     QTextStream brainReader(brainFile);
     btBrain* newBrain = new btBrain(brainReader.readAll());
     brainFile->close();
@@ -69,7 +69,7 @@ Asset::setFile(const QUrl &newFile)
     if(!newBrain)
         return;
     
-    qDebug() << "Brain loaded, replacing old brain and creating" << newBrain->behaviorTreesCount() << "sub-assets";
+    debug(QString("Brain loaded, replacing old brain and creating %1 sub-assets").arg(newBrain->behaviorTreesCount()));
     //delete(d->brain);
     d->brain = newBrain;
     
@@ -100,7 +100,7 @@ Asset::setFile(const QUrl &newFile)
         emit theOldChild->treeChanged(theNewChild);
     }
     
-    qDebug() << "Brain successfully loaded! Number of sub-assets created:" << this->children().count();
+    debug(QString("Brain successfully loaded! Number of sub-assets created: %1").arg(this->children().count()));
     
 //    qDeleteAll(oldChildren);
     

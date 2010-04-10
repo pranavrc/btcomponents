@@ -23,6 +23,7 @@
 #include <QtCore/QSharedData>
 
 class btCharacter;
+class btPerception;
 
 namespace BehaviorTree
 {
@@ -38,6 +39,7 @@ namespace BehaviorTree
             Tree* tree;
             bool autoThink;
 	    btCharacter * self;
+	    btPerception * perception;
     };
 }
 

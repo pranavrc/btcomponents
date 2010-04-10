@@ -17,8 +17,8 @@
 
 */
 
-#include "btasset.h"
-#include "btassetprivate.h"
+#include "asset.h"
+#include "assetprivate.h"
 #include "tree.h"
 
 #include <smarts/btbrain.h>
@@ -38,7 +38,7 @@ using namespace BehaviorTree;
 Asset::Asset(QObject * parent)
     : GluonEngine::Asset(parent)
 {
-    d = new btAssetPrivate;
+    d = new AssetPrivate;
     qRegisterMetaType<btNode*>("btNode*");
 }
 
@@ -106,10 +106,10 @@ const QStringList
 Asset::supportedMimeTypes() const
 {
 	QStringList list;
-	list.append("text/xml");
+	list.append("application/xml");
 	return list;
 }
 
 Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree, BehaviorTree::Asset)
 
-#include "btasset.moc"
+#include "asset.moc"

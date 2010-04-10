@@ -17,22 +17,8 @@
 
 */
 
-#ifndef BEHAVIORTREE_ASSETPRIVATE_H
-#define BEHAVIORTREE_ASSETPRIVATE_H
+#include "assetprivate.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QVariant>
-#include <QtCore/QMap>
-#include <smarts/btbrain.h>
+using namespace BehaviorTree;
 
-namespace BehaviorTree
-{
-    class btAssetPrivate : public QObject
-    {
-        Q_OBJECT
-        public:
-            btBrain* brain;
-    };
-}
-
-#endif // BEHAVIORTREE_ASSETPRIVATE_H
+#include "assetprivate.moc"

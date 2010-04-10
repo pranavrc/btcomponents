@@ -133,7 +133,6 @@ Character::autoThink() const
     return d->autoThink;
 }
 
-
-Q_EXPORT_PLUGIN2(component_behaviortree, BehaviorTree::Character)
+Q_EXPORT_PLUGIN2(gluon_plugin_component_behaviortree, BehaviorTree::Character)
 
 #include "character.moc"

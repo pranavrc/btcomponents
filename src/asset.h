@@ -17,26 +17,37 @@
 
 */
 
-#include "characterprivate.h"
-#include "asset.h"
+#ifndef BEHAVIORTREE_ASSET_H
+#define BEHAVIORTREE_ASSET_H
 
-using namespace BehaviorTree;
+#include <engine/asset.h>
+#include "bt_export.h"
+#include <smarts/btnode.h>
+#include <smarts/btbrain.h>
 
-CharacterPrivate::CharacterPrivate()
+namespace BehaviorTree
 {
-    tree = NULL;
-    autoThink = true;
+    class AssetPrivate;
+    
+    class BTCOMPONENT_EXPORT Asset : public GluonEngine::Asset
+    {
+        Q_OBJECT
+        GLUON_OBJECT(BehaviorTree::btAsset)
+        Q_INTERFACES(GluonEngine::Asset)
+        
+        public:
+            Asset(QObject *parent = 0);
+            ~Asset();
+            
+            virtual void setFile(const QUrl &newFile);
+	    virtual const QStringList supportedMimeTypes() const;
+            
+        private:
+            AssetPrivate* d;
+    };
 }
 
-CharacterPrivate::CharacterPrivate(const CharacterPrivate &other)
-    : QSharedData(other)
-    , tree(other.tree)
-    , autoThink(other.autoThink)
-    , self(other.self)
-    , perception(other.perception)
-{
-}
+Q_DECLARE_METATYPE(BehaviorTree::Asset)
+Q_DECLARE_METATYPE(BehaviorTree::Asset*)
 
-CharacterPrivate::~CharacterPrivate()
-{
-}
+#endif // BEHAVIORTREE_ASSET_H

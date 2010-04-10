@@ -84,7 +84,7 @@ install(
         gluon_plugin_asset_behaviortree
         gluon_plugin_asset_behaviortree_sub
         gluon_plugin_component_behaviortree
-    DESTINATION ${LIB_INSTALL_DIR}/gluon
+    DESTINATION ${LIB_INSTALL_DIR}#/gluon
     #LIBRARY DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT Runtime
     #ARCHIVE DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT Devel
 )

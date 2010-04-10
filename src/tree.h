@@ -26,7 +26,7 @@
 
 namespace BehaviorTree
 {
-    class btAsset;
+    class Asset;
     class TreePrivate;
     
     class BTCOMPONENT_EXPORT Tree : public GluonEngine::Asset
@@ -37,7 +37,7 @@ namespace BehaviorTree
         Q_PROPERTY(btNode* behaviorTree READ behaviorTree WRITE setBehaviorTree)
         
         public:
-            friend class BehaviorTree::btAsset;
+            friend class BehaviorTree::Asset;
             
             Tree(QObject * parent = 0);
             ~Tree();

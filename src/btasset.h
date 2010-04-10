@@ -29,15 +29,15 @@ namespace BehaviorTree
 {
     class btAssetPrivate;
     
-    class BTCOMPONENT_EXPORT btAsset : public GluonEngine::Asset
+    class BTCOMPONENT_EXPORT Asset : public GluonEngine::Asset
     {
         Q_OBJECT
         GLUON_OBJECT(BehaviorTree::btAsset)
         Q_INTERFACES(GluonEngine::Asset)
         
         public:
-            btAsset(QObject *parent = 0);
-            ~btAsset();
+            Asset(QObject *parent = 0);
+            ~Asset();
             
             virtual void setFile(const QUrl &newFile);
 	    virtual const QStringList supportedMimeTypes() const;
@@ -47,7 +47,7 @@ namespace BehaviorTree
     };
 }
 
-Q_DECLARE_METATYPE(BehaviorTree::btAsset)
-Q_DECLARE_METATYPE(BehaviorTree::btAsset*)
+Q_DECLARE_METATYPE(BehaviorTree::Asset)
+Q_DECLARE_METATYPE(BehaviorTree::Asset*)
 
 #endif // BEHAVIORTREE_ASSET_H

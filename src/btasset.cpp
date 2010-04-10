@@ -31,24 +31,24 @@
 
 Q_DECLARE_METATYPE(btNode*)
 
-REGISTER_OBJECTTYPE(BehaviorTree, btAsset)
+REGISTER_OBJECTTYPE(BehaviorTree, Asset)
 
 using namespace BehaviorTree;
 
-btAsset::btAsset(QObject * parent)
+Asset::Asset(QObject * parent)
     : GluonEngine::Asset(parent)
 {
     d = new btAssetPrivate;
     qRegisterMetaType<btNode*>("btNode*");
 }
 
-btAsset::~btAsset()
+Asset::~Asset()
 {
     delete(d);
 }
 
 void
-btAsset::setFile(const QUrl &newFile)
+Asset::setFile(const QUrl &newFile)
 {
     debug(QString("Attempting to load %1").arg(newFile.toLocalFile()));
     QFile *brainFile = new QFile(newFile.toLocalFile());
@@ -102,13 +102,14 @@ btAsset::setFile(const QUrl &newFile)
     GluonEngine::Asset::setFile(newFile);
 }
 
-const QStringList btAsset::supportedMimeTypes() const
+const QStringList
+Asset::supportedMimeTypes() const
 {
 	QStringList list;
 	list.append("text/xml");
 	return list;
 }
 
-Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree, BehaviorTree::btAsset)
+Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree, BehaviorTree::Asset)
 
 #include "btasset.moc"

@@ -18,7 +18,7 @@
 */
 
 #include "characterprivate.h"
-#include "asset.h"
+#include "btasset.h"
 
 using namespace BehaviorTree;
 

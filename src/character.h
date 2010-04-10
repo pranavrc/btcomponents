@@ -20,8 +20,8 @@
 #ifndef BRAIN_H
 #define BRAIN_H
 
-#include <component.h>
-#include <btbrain.h>
+#include <engine/component.h>
+#include <smarts/btbrain.h>
 #include "bt_export.h"
 
 namespace BehaviorTree
@@ -29,10 +29,11 @@ namespace BehaviorTree
     class CharacterPrivate;
     class Tree;
 
-    class BTCOMPONENT_EXPORT Character : public Gluon::Component
+    class BTCOMPONENT_EXPORT Character : public GluonEngine::Component
     {
         Q_OBJECT
-        Q_INTERFACES(Gluon::Component)
+        GLUON_OBJECT(BehaviorTree::Character)
+        Q_INTERFACES(GluonEngine::Component)
         Q_PROPERTY(bool autoThink READ autoThink WRITE setAutoThink)
         //Q_PROPERTY has problems with namespaced types - workaround in constructor, setBrain and brain
         //Q_PROPERTY(BehaviorTree::Tree* tree READ tree WRITE setTree)
@@ -42,7 +43,6 @@ namespace BehaviorTree
             Character(const Character &other, QObject * parent = 0);
             ~Character();
             
-            virtual Character* instantiate();
             virtual void update(int elapsedMilliseconds);
             
             bool think();
@@ -60,5 +60,8 @@ namespace BehaviorTree
             QSharedDataPointer<CharacterPrivate> d;
     };
 }
+
+Q_DECLARE_METATYPE(BehaviorTree::Character)
+Q_DECLARE_METATYPE(BehaviorTree::Character*)
 
 #endif // BRAIN_H

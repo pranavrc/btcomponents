@@ -18,7 +18,7 @@
 */
 
 #include "treeprivate.h"
-#include <btnode.h>
+#include <smarts/btnode.h>
 
 using namespace BehaviorTree;
 

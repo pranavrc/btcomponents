@@ -4,14 +4,14 @@
 #include <QtCore/QDebug>
 #include <QtCore/QUrl>
 
-#include <gluon/gluonobjectfactory.h>
-#include <gluon/gameproject.h>
-#include <gluon/game.h>
-#include <gluon/gdlhandler.h>
+#include <core/gluonobjectfactory.h>
+#include <engine/gameproject.h>
+#include <engine/game.h>
+#include <core/gdlhandler.h>
 
 btcomponentstestapp::btcomponentstestapp()
 {
-    Gluon::GluonObjectFactory::instance()->loadPlugins();
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
 }
 
 btcomponentstestapp::~btcomponentstestapp()
@@ -20,17 +20,17 @@ btcomponentstestapp::~btcomponentstestapp()
 void
 btcomponentstestapp::run(QUrl gdlFile)
 {
-    Gluon::GameProject *gameProject = new Gluon::GameProject(QCoreApplication::instance());
+    GluonEngine::GameProject *gameProject = new GluonEngine::GameProject(QCoreApplication::instance());
     gameProject->loadFromFile(gdlFile);
     
-    Gluon::Game::instance()->setParent(QCoreApplication::instance());
-    Gluon::Game::instance()->setGameProject(gameProject);
+    GluonEngine::Game::instance()->setParent(QCoreApplication::instance());
+    GluonEngine::Game::instance()->setGameProject(gameProject);
     
     //qDebug() << "The gameProject turned into GDL:" << gameProject->toGDL();
     
     // Run the game at severely reduced speed (one frame per second) so we can
     // actually see what's happening
-    Gluon::Game::instance()->runGameFixedTimestep(1);
+    GluonEngine::Game::instance()->runGameFixedTimestep(1);
 }
 
 #include "btcomponents-testapp.moc"

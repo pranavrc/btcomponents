@@ -23,11 +23,11 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include <QtCore/QMap>
-#include <btbrain.h>
+#include <smarts/btbrain.h>
 
 namespace BehaviorTree
 {
-    class AssetPrivate : public QObject
+    class btAssetPrivate : public QObject
     {
         Q_OBJECT
         public:

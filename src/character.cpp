@@ -18,13 +18,11 @@
 */
 
 #include <QtCore/QVariant>
-#include <debughelper.h>
+#include <core/debughelper.h>
+#include <smarts/btcharacter.h>
 #include "character.h"
 #include "characterprivate.h"
 #include "tree.h"
-
-Q_DECLARE_METATYPE(BehaviorTree::Tree*)
-Q_DECLARE_METATYPE(Gluon::GluonObject*)
 
 REGISTER_OBJECTTYPE(BehaviorTree,Character)
 
@@ -37,6 +35,7 @@ Character::Character(QObject * parent)
     
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     setTree(NULL);
+    d->self = new btCharacter();
 }
 
 Character::Character(const Character &other, QObject * parent)
@@ -47,12 +46,6 @@ Character::Character(const Character &other, QObject * parent)
 
 Character::~Character()
 {
-}
-
-Character*
-Character::instantiate()
-{
-    return new Character(this);
 }
 
 void
@@ -73,16 +66,17 @@ Character::think()
     {
         if(tree()->behaviorTree())
         {
-            if(tree()->behaviorTree()->runBehavior())
-            {
-                debugText += "Thought successfully!";
-                // SUCCESS!!
-            }
-            else
-            {
-                debugText += "Failed at thinking :P";
-                // FAILURE!
-            }
+		
+		if(tree()->behaviorTree()->run(d->self) == btNode::Succeeded)
+		{
+			debugText += "Thought successfully!";
+			// SUCCESS!!
+		}
+		else
+		{
+			debugText += "Failed at thinking :P";
+			// FAILURE!
+		}
         }
         else
             debugText += "Thinking not possible - behavoirTree not set!";

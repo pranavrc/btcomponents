@@ -19,26 +19,20 @@
 
 #include "tree.h"
 #include "treeprivate.h"
-#include <debughelper.h>
+#include <core/debughelper.h>
 
 REGISTER_OBJECTTYPE(BehaviorTree,Tree)
 
 using namespace BehaviorTree;
 
 Tree::Tree(QObject * parent)
-    : Gluon::Asset(parent)
+    : GluonEngine::Asset(parent)
 {
     d = new TreePrivate(this);
 }
 
 Tree::~Tree()
 {
-}
-
-Tree *
-Tree::instantiate()
-{
-    return new Tree(this);
 }
 
 void
@@ -53,6 +47,6 @@ Tree::behaviorTree() const
     return d->behaviorTree;
 }
 
-Q_EXPORT_PLUGIN2(asset_behaviortree, BehaviorTree::Tree)
+Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree_sub, BehaviorTree::Tree)
 
 #include "tree.moc"

@@ -17,8 +17,8 @@
 
 */
 
-#include "assetprivate.h"
+#include "btassetprivate.h"
 
 using namespace BehaviorTree;
 
-#include "assetprivate.moc"
+#include "btassetprivate.moc"

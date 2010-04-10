@@ -17,43 +17,38 @@
 
 */
 
-#include "asset.h"
-#include "assetprivate.h"
+#include "btasset.h"
+#include "btassetprivate.h"
 #include "tree.h"
 
-#include <btbrain.h>
+#include <smarts/btbrain.h>
 #include <QtCore/QVariant>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QMap>
 #include <QtCore/QDebug>
+#include <QtCore/QStringList>
 
 Q_DECLARE_METATYPE(btNode*)
 
-REGISTER_OBJECTTYPE(BehaviorTree,Asset)
+REGISTER_OBJECTTYPE(BehaviorTree, btAsset)
 
 using namespace BehaviorTree;
 
-Asset::Asset(QObject * parent)
-    : Gluon::Asset(parent)
+btAsset::btAsset(QObject * parent)
+    : GluonEngine::Asset(parent)
 {
-    d = new AssetPrivate;
+    d = new btAssetPrivate;
     qRegisterMetaType<btNode*>("btNode*");
 }
 
-Asset::~Asset()
+btAsset::~btAsset()
 {
     delete(d);
 }
 
-Asset *
-Asset::instantiate()
-{
-    return new Asset(this);
-}
-
 void
-Asset::setFile(const QUrl &newFile)
+btAsset::setFile(const QUrl &newFile)
 {
     debug(QString("Attempting to load %1").arg(newFile.toLocalFile()));
     QFile *brainFile = new QFile(newFile.toLocalFile());
@@ -104,9 +99,16 @@ Asset::setFile(const QUrl &newFile)
     
 //    qDeleteAll(oldChildren);
     
-    Gluon::Asset::setFile(newFile);
+    GluonEngine::Asset::setFile(newFile);
 }
 
-Q_EXPORT_PLUGIN2(asset_behaviortree, BehaviorTree::Asset)
+const QStringList btAsset::supportedMimeTypes() const
+{
+	QStringList list;
+	list.append("text/xml");
+	return list;
+}
 
-#include "asset.moc"
+Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree, BehaviorTree::btAsset)
+
+#include "btasset.moc"

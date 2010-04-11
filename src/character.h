@@ -24,6 +24,9 @@
 #include <smarts/btbrain.h>
 #include "bt_export.h"
 
+class btPerceptionViewcone;
+class btPerceptionAtom;
+
 namespace BehaviorTree
 {
     class CharacterPrivate;
@@ -35,6 +38,8 @@ namespace BehaviorTree
         GLUON_OBJECT(BehaviorTree::Character)
         Q_INTERFACES(GluonEngine::Component)
         Q_PROPERTY(bool autoThink READ autoThink WRITE setAutoThink)
+        Q_PROPERTY(qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision)
+        Q_PROPERTY(qreal perceptionLimit READ perceptionLimit WRITE setPerceptionLimit)
         //Q_PROPERTY has problems with namespaced types - workaround in constructor, setBrain and brain
         //Q_PROPERTY(BehaviorTree::Tree* tree READ tree WRITE setTree)
         
@@ -52,6 +57,15 @@ namespace BehaviorTree
             
             void setAutoThink(bool newAutoThink);
             bool autoThink() const;
+	    
+			qreal knowledgePrecision() const;
+			void setKnowledgePrecision(const qreal& newKnowledgePrecision);
+        
+			qreal perceptionLimit() const;
+			void setPerceptionLimit(const qreal& newPerceptionLimit);
+			
+			void addViewCone(btPerceptionViewcone * viewcone);
+			void addPerceptionAtom(btPerceptionAtom * atom);
         
         private Q_SLOTS:
             void treeReplaced(Tree* newTree);

@@ -10,8 +10,9 @@ ViewConePrivate::ViewConePrivate()
 
 }
 
-ViewConePrivate::ViewConePrivate(const QSharedData& other)
+ViewConePrivate::ViewConePrivate(const ViewConePrivate& other)
 	: QSharedData(other)
+	, viewcone(other.viewcone)
 {
 
 }

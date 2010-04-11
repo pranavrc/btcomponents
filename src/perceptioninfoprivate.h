@@ -4,6 +4,8 @@
 
 #include <QtCore/QSharedData>
 
+class btPerceptionInfo;
+
 namespace BehaviorTree
 {
 	class PerceptionInfoPrivate : public QSharedData
@@ -12,6 +14,8 @@ namespace BehaviorTree
 			PerceptionInfoPrivate();
 			PerceptionInfoPrivate(const PerceptionInfoPrivate& other );
 			~PerceptionInfoPrivate();
+			
+			btPerceptionInfo * info;
 	};
 }
 

@@ -20,9 +20,12 @@
 #include <QtCore/QVariant>
 #include <core/debughelper.h>
 #include <smarts/btcharacter.h>
+#include <engine/gameobject.h>
 #include "character.h"
 #include "characterprivate.h"
 #include "tree.h"
+#include <smarts/btperceptionatom.h>
+#include <smarts/btperceptionviewcone.h>
 
 REGISTER_OBJECTTYPE(BehaviorTree,Character)
 
@@ -36,6 +39,7 @@ Character::Character(QObject * parent)
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     setTree(NULL);
     d->self = new btCharacter();
+    d->perception = new btPerception(d->self);
 }
 
 Character::Character(const Character &other, QObject * parent)
@@ -66,17 +70,8 @@ Character::think()
     {
         if(tree()->behaviorTree())
         {
-		
-		if(tree()->behaviorTree()->run(d->self) == btNode::Succeeded)
-		{
-			debugText += "Thought successfully!";
-			// SUCCESS!!
-		}
-		else
-		{
-			debugText += "Failed at thinking :P";
-			// FAILURE!
-		}
+		d->self->think();		
+		debugText += "Thinkin!";
         }
         else
             debugText += "Thinking not possible - behavoirTree not set!";
@@ -101,6 +96,9 @@ Character::setTree(Tree* newAsset)
     if(d->tree)
         disconnect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
     d->tree = newAsset;
+    
+    if(d->tree)
+	d->self->setBehaviorTree(d->tree->behaviorTree());
     
     QVariant theNewValue;
     theNewValue.setValue<Tree*>(newAsset);
@@ -133,6 +131,35 @@ Character::autoThink() const
     return d->autoThink;
 }
 
+qreal Character::knowledgePrecision() const
+{
+	return d->perception->knowledgePrecision();
+}
+
+void Character::setKnowledgePrecision(const qreal& newKnowledgePrecision)
+{
+	d->perception->setKnowledgePrecision(newKnowledgePrecision);
+}
+
+qreal Character::perceptionLimit() const
+{
+	return d->perception->perceptionLimit();
+}
+
+void Character::setPerceptionLimit(const qreal& newPerceptionLimit)
+{
+	d->perception->setPerceptionLimit(newPerceptionLimit);
+}
+
+void Character::addViewCone(btPerceptionViewcone * viewcone)
+{
+	d->perception->addViewCone(viewcone);
+}
+
+void Character::addPerceptionAtom(btPerceptionAtom * atom)
+{
+	d->perception->addPerceptionAtom(atom);
+}
 Q_EXPORT_PLUGIN2(gluon_plugin_component_behaviortree, BehaviorTree::Character)
 
 #include "character.moc"

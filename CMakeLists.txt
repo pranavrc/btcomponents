@@ -102,10 +102,10 @@ add_library(gluon_plugin_component_behaviortree SHARED ${characterComponent_SRCS
 target_link_libraries(gluon_plugin_component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_asset_behaviortree_sub)
 
 add_library(gluon_plugin_component_viewcone SHARED ${viewConeComponent_SRCS})
-target_link_libraries(gluon_plugin_component_viewcone ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
+target_link_libraries(gluon_plugin_component_viewcone ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 
 add_library(gluon_plugin_component_perceptionatom SHARED ${perceptionAtomComponent_SRCS})
-target_link_libraries(gluon_plugin_component_perceptionatom ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
+target_link_libraries(gluon_plugin_component_perceptionatom ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 
 add_library(gluon_plugin_component_perceptioninfo SHARED ${perceptionInfoComponent_SRCS})
 target_link_libraries(gluon_plugin_component_perceptioninfo ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)

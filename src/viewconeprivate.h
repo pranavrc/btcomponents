@@ -3,14 +3,18 @@
 
 #include <QtCore/QSharedData>
 
+class btPerceptionViewcone;
+
 namespace BehaviorTree
 {
     class ViewConePrivate : public QSharedData
     {
 	    public:
 		ViewConePrivate();
-		ViewConePrivate(const QSharedData& other);
+		ViewConePrivate(const ViewConePrivate& other);
 		~ViewConePrivate();
+		
+		btPerceptionViewcone * viewcone;
     };
 }
 

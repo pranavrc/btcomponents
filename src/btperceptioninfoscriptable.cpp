@@ -1,6 +1,7 @@
 #include "btperceptioninfoscriptable.h"
 
 #include <QtGui/QVector3D>
+#include "perceptioninfo.h"
 
 using namespace BehaviorTree;
 
@@ -18,7 +19,8 @@ btPerceptionInfoScriptable::~btPerceptionInfoScriptable()
 
 QVariant BehaviorTree::btPerceptionInfoScriptable::getAdjustedValue(qreal precision) const
 {
-
+	PerceptionInfo * parent = qobject_cast< PerceptionInfo* >(this->parent());
+	return parent->getAdjustedValue(precision);
 }
 
 #include "btperceptioninfoscriptable.moc"

@@ -15,8 +15,7 @@ using namespace BehaviorTree;
 PerceptionInfo::PerceptionInfo(QObject* parent)
 	: Component(parent)
 {
-	d = new PerceptionInfoPrivate();
-	d->info = new btPerceptionInfoScriptable();
+	d = new PerceptionInfoPrivate(this);	
 }
 
 PerceptionInfo::PerceptionInfo(const PerceptionInfo& other, QObject* parent)
@@ -83,6 +82,7 @@ void PerceptionInfo::initialize()
 
         d->updateFunc = d->engine.globalObject().property("update");
         d->drawFunc = d->engine.globalObject().property("draw");
+		d->getAdjustedValueFunc = d->engine.globalObject().property("getAdjustedValue");
         
         QScriptValue initFunc = d->engine.globalObject().property("initialize");
         if (initFunc.isFunction())
@@ -182,6 +182,24 @@ GluonEngine::Asset* PerceptionInfo::script()
 void PerceptionInfo::setScript(GluonEngine::Asset* asset)
 {
     d->script = asset;
+}
+
+QVariant PerceptionInfo::getAdjustedValue(qreal precision)
+{
+	if(d->getAdjustedValueFunc.isFunction())
+    {
+        QScriptValue returnVal = d->getAdjustedValueFunc.call(QScriptValue(), QScriptValueList() << precision);
+        if (d->engine.uncaughtException().isValid())
+        {
+            qDebug() << d->engine.uncaughtException().toString();
+            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+			return QVariant();
+        }
+        else
+		{
+			return returnVal.toVariant();
+		}
+    }
 }
 
 Q_EXPORT_PLUGIN2(gluon_plugin_component_perceptioninfo, BehaviorTree::PerceptionInfo)

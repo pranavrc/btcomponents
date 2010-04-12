@@ -13,7 +13,7 @@ namespace BehaviorTree
 	class PerceptionInfoPrivate : public QSharedData
 	{
 		public:
-			PerceptionInfoPrivate();
+			PerceptionInfoPrivate(QObject * parent = 0);
 			PerceptionInfoPrivate(const PerceptionInfoPrivate& other );
 			~PerceptionInfoPrivate();
 			
@@ -22,6 +22,7 @@ namespace BehaviorTree
 
 			QScriptValue drawFunc;
 			QScriptValue updateFunc;
+			QScriptValue getAdjustedValueFunc;
 
 			GluonEngine::Asset* script;
 	};

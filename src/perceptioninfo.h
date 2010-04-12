@@ -47,6 +47,8 @@ namespace BehaviorTree
             virtual void cleanup();
 			
 			virtual GluonEngine::Asset* script();
+			
+			virtual QVariant getAdjustedValue(qreal precision);
 
         public slots:
             virtual void setScript(GluonEngine::Asset* asset);

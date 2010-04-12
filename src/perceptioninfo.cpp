@@ -2,7 +2,7 @@
 
 #include "perceptioninfoprivate.h"
 
-#include <smarts/btperceptioninfo.h>
+#include "btperceptioninfoscriptable.h"
 
 REGISTER_OBJECTTYPE(BehaviorTree, PerceptionInfo)
 
@@ -12,7 +12,7 @@ PerceptionInfo::PerceptionInfo(QObject* parent)
 	: Component(parent)
 {
 	d = new PerceptionInfoPrivate();
-	d->info = new btPerceptionInfo();
+	d->info = new btPerceptionInfoScriptable();
 }
 
 PerceptionInfo::PerceptionInfo(const PerceptionInfo& other, QObject* parent)

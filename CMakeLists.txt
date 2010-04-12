@@ -48,6 +48,7 @@ set(perceptionAtomComponent_SRCS
 set(perceptionInfoComponent_SRCS
 	src/perceptioninfo.cpp
 	src/perceptioninfoprivate.cpp
+	src/btperceptioninfoscriptable.cpp
    )
 
 

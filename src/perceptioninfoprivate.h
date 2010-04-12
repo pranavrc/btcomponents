@@ -1,13 +1,12 @@
 #ifndef PERCEPTIONINFOPRIVATE_H
 #define PERCEPTIONINFOPRIVATE_H
-#include "asset.h"
 
 #include <QtCore/QSharedData>
 
-class btPerceptionInfo;
-
 namespace BehaviorTree
 {
+	class btPerceptionInfoScriptable;
+	
 	class PerceptionInfoPrivate : public QSharedData
 	{
 		public:
@@ -15,7 +14,7 @@ namespace BehaviorTree
 			PerceptionInfoPrivate(const PerceptionInfoPrivate& other );
 			~PerceptionInfoPrivate();
 			
-			btPerceptionInfo * info;
+			btPerceptionInfoScriptable * info;
 	};
 }
 

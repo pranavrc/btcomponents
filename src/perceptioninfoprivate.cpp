@@ -1,6 +1,6 @@
 #include "perceptioninfoprivate.h"
 
-#include <smarts/btperceptioninfo.h>
+#include "btperceptioninfoscriptable.h"
 
 using namespace BehaviorTree;
 

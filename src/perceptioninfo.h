@@ -6,9 +6,12 @@
 #include <QtCore/QObject>
 #include <engine/component.h>
 #include <QtCore/QSharedData>
+#include <engine/asset.h>
 
 class QVector3D;
 class btPerceptionInfo;
+class QScriptValue;
+class QScriptEngine;
 
 namespace BehaviorTree
 {
@@ -21,6 +24,7 @@ namespace BehaviorTree
 		Q_INTERFACES(GluonEngine::Component)
 		Q_PROPERTY(QVector3D position READ position WRITE setPosition NOTIFY positionUpdated)
 		Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusUpdated)
+		Q_PROPERTY(GluonEngine::Asset* script READ script WRITE setScript)
         
 		public:
 			PerceptionInfo(QObject* parent = 0);
@@ -34,6 +38,18 @@ namespace BehaviorTree
 			void setRadius(const qreal& newRadius);
 			
 			btPerceptionInfo * getBtPerceptionInfo();
+			
+			virtual void initialize();
+            virtual void start();
+            virtual void update(int elapsedMilliseconds);
+            virtual void draw(int timeLapse = 0);
+            virtual void stop();
+            virtual void cleanup();
+			
+			virtual GluonEngine::Asset* script();
+
+        public slots:
+            virtual void setScript(GluonEngine::Asset* asset);
 
 		private:
 			QSharedDataPointer<PerceptionInfoPrivate> d;

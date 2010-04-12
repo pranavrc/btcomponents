@@ -2,6 +2,9 @@
 #define PERCEPTIONINFOPRIVATE_H
 
 #include <QtCore/QSharedData>
+#include <engine/asset.h>
+#include <QtScript/QScriptEngine>
+#include <QtCore/QDebug>
 
 namespace BehaviorTree
 {
@@ -15,6 +18,12 @@ namespace BehaviorTree
 			~PerceptionInfoPrivate();
 			
 			btPerceptionInfoScriptable * info;
+			QScriptEngine engine;
+
+			QScriptValue drawFunc;
+			QScriptValue updateFunc;
+
+			GluonEngine::Asset* script;
 	};
 }
 

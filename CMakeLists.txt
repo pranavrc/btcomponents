@@ -109,7 +109,7 @@ add_library(gluon_plugin_component_perceptionatom SHARED ${perceptionAtomCompone
 target_link_libraries(gluon_plugin_component_perceptionatom ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 
 add_library(gluon_plugin_component_perceptioninfo SHARED ${perceptionInfoComponent_SRCS})
-target_link_libraries(gluon_plugin_component_perceptioninfo ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
+target_link_libraries(gluon_plugin_component_perceptioninfo ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
 
 install(
     TARGETS

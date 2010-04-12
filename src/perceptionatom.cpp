@@ -4,7 +4,6 @@
 #include "character.h"
 #include <smarts/btperceptionatom.h>
 #include <engine/gameobject.h>
-#include "perceptioninfo.h"
 
 REGISTER_OBJECTTYPE(BehaviorTree, PerceptionAtom)
 

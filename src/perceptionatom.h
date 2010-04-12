@@ -6,6 +6,7 @@
 #include <engine/component.h>
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
+#include "perceptioninfo.h"
 
 namespace BehaviorTree
 {

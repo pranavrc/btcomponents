@@ -52,6 +52,9 @@ namespace BehaviorTree
 
         public slots:
             virtual void setScript(GluonEngine::Asset* asset);
+			
+		signals:
+			Q_INVOKABLE void infoUpdated();
 
 		private:
 			QSharedDataPointer<PerceptionInfoPrivate> d;

@@ -19,7 +19,7 @@
 
 #include <QtCore/QVariant>
 #include <core/debughelper.h>
-#include <smarts/btcharacter.h>
+#include "btcharacterscriptable.h"
 #include <engine/gameobject.h>
 #include "character.h"
 #include "characterprivate.h"
@@ -38,8 +38,8 @@ Character::Character(QObject * parent)
     
     #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     setTree(NULL);
-    d->self = new btCharacter();
-    d->perception = new btPerception(d->self);
+    d->self = new btCharacterScriptable();
+    d->perception = d->self->perception();
 }
 
 Character::Character(const Character &other, QObject * parent)
@@ -51,6 +51,12 @@ Character::Character(const Character &other, QObject * parent)
 Character::~Character()
 {
 }
+
+void Character::start()
+{
+    #warning search through assets, use game and a gameProject()
+}
+
 
 void
 Character::update(int elapsedMilliseconds)
@@ -71,7 +77,7 @@ Character::think()
         if(tree()->behaviorTree())
         {
 		d->self->think();		
-		debugText += "Thinkin!";
+		debugText += "Thinking!";
         }
         else
             debugText += "Thinking not possible - behavoirTree not set!";

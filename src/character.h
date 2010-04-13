@@ -42,12 +42,12 @@ namespace BehaviorTree
         Q_PROPERTY(qreal perceptionLimit READ perceptionLimit WRITE setPerceptionLimit)
         //Q_PROPERTY has problems with namespaced types - workaround in constructor, setBrain and brain
         //Q_PROPERTY(BehaviorTree::Tree* tree READ tree WRITE setTree)
-        
         public:
             Character(QObject * parent = 0);
             Character(const Character &other, QObject * parent = 0);
             ~Character();
             
+			virtual void start();
             virtual void update(int elapsedMilliseconds);
             
             bool think();

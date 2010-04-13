@@ -33,6 +33,7 @@ set(treeAsset_SRCS
 set(characterComponent_SRCS
 	src/characterprivate.cpp
 	src/character.cpp
+	src/btcharacterscriptable.cpp
     )
 
 set(viewConeComponent_SRCS
@@ -51,6 +52,11 @@ set(perceptionInfoComponent_SRCS
 	src/btperceptioninfoscriptable.cpp
    )
 
+set(btnodeasset_SRCS
+	src/btnodeasset.cpp
+	src/btnodescriptable.cpp
+   )
+
 
 qt4_automoc(
 	${btAsset_SRCS} 
@@ -59,6 +65,7 @@ qt4_automoc(
 	${viewConeComponent_SRCS} 
 	${perceptionAtomComponent_SRCS} 
 	${perceptionInfoComponent_SRCS}
+	${btnodeasset_SRCS}
 	)
 
 find_library(LIBBT
@@ -111,14 +118,17 @@ target_link_libraries(gluon_plugin_component_perceptionatom ${QT_QTCORE_LIBRARY}
 add_library(gluon_plugin_component_perceptioninfo SHARED ${perceptionInfoComponent_SRCS})
 target_link_libraries(gluon_plugin_component_perceptioninfo ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
 
+add_library(gluon_plugin_asset_btnode SHARED ${btnodeasset_SRCS})
+target_link_libraries(gluon_plugin_asset_btnode ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
 install(
     TARGETS
-        gluon_plugin_asset_behaviortree
-        gluon_plugin_asset_behaviortree_sub
-        gluon_plugin_component_behaviortree
+    gluon_plugin_asset_behaviortree
+    gluon_plugin_asset_behaviortree_sub
+    gluon_plugin_component_behaviortree
 	gluon_plugin_component_viewcone
 	gluon_plugin_component_perceptionatom
 	gluon_plugin_component_perceptioninfo
+	gluon_plugin_asset_btnode
     DESTINATION ${LIB_INSTALL_DIR}#/gluon
     #LIBRARY DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT Runtime
     #ARCHIVE DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT Devel

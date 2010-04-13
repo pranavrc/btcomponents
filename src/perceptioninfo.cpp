@@ -15,7 +15,8 @@ using namespace BehaviorTree;
 PerceptionInfo::PerceptionInfo(QObject* parent)
 	: Component(parent)
 {
-	d = new PerceptionInfoPrivate(this);	
+	d = new PerceptionInfoPrivate(this);
+	connect(this,SIGNAL(infoUpdated()), d->info, SIGNAL(infoUpdated()));
 }
 
 PerceptionInfo::PerceptionInfo(const PerceptionInfo& other, QObject* parent)

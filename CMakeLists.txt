@@ -116,10 +116,10 @@ add_library(gluon_plugin_component_perceptionatom SHARED ${perceptionAtomCompone
 target_link_libraries(gluon_plugin_component_perceptionatom ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 
 add_library(gluon_plugin_component_perceptioninfo SHARED ${perceptionInfoComponent_SRCS})
-target_link_libraries(gluon_plugin_component_perceptioninfo ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
+target_link_libraries(gluon_plugin_component_perceptioninfo ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 
 add_library(gluon_plugin_asset_btnode SHARED ${btnodeasset_SRCS})
-target_link_libraries(gluon_plugin_asset_btnode ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib)
+target_link_libraries(gluon_plugin_asset_btnode ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 install(
     TARGETS
     gluon_plugin_asset_behaviortree
@@ -129,9 +129,7 @@ install(
 	gluon_plugin_component_perceptionatom
 	gluon_plugin_component_perceptioninfo
 	gluon_plugin_asset_btnode
-    DESTINATION ${LIB_INSTALL_DIR}#/gluon
-    #LIBRARY DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT Runtime
-    #ARCHIVE DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT Devel
+    DESTINATION ${LIB_INSTALL_DIR}
 )
 
 add_subdirectory(testapp)

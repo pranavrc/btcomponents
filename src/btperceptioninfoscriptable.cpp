@@ -5,7 +5,7 @@
 
 using namespace BehaviorTree;
 
-BehaviorTree::btPerceptionInfoScriptable::btPerceptionInfoScriptable(QObject* parent)
+btPerceptionInfoScriptable::btPerceptionInfoScriptable(QObject* parent)
 	: btPerceptionInfo(parent)
 {
 	setPosition(QVector3D());
@@ -17,7 +17,7 @@ btPerceptionInfoScriptable::~btPerceptionInfoScriptable()
 
 }
 
-QVariant BehaviorTree::btPerceptionInfoScriptable::getAdjustedValue(qreal precision) const
+QVariant btPerceptionInfoScriptable::getAdjustedValue(qreal precision) const
 {
 	PerceptionInfo * parent = qobject_cast< PerceptionInfo* >(this->parent());
 	return parent->getAdjustedValue(precision);

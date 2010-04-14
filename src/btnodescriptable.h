@@ -4,7 +4,6 @@
 #include "bt_export.h"
 #include <smarts/btlib.h>
 #include <engine/asset.h>
-#include "asset.h"
 
 namespace BehaviorTree
 {

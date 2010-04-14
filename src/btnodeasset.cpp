@@ -4,6 +4,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
 
+REGISTER_OBJECTTYPE(BehaviorTree, btNodeAsset)
+
 using namespace BehaviorTree;
 
 class btNodeAsset::btNodeAssetPrivate
@@ -24,13 +26,13 @@ class btNodeAsset::btNodeAssetPrivate
 		
 };
 
-BehaviorTree::btNodeAsset::btNodeAsset(QObject* parent)
+btNodeAsset::btNodeAsset(QObject* parent)
 	: GluonEngine::Asset(parent)
 {
 	d = new btNodeAssetPrivate();
 }
 
-BehaviorTree::btNodeAsset::~btNodeAsset()
+btNodeAsset::~btNodeAsset()
 {
 	delete d;
 }

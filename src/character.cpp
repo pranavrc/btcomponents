@@ -26,25 +26,30 @@
 #include "tree.h"
 #include <smarts/btperceptionatom.h>
 #include <smarts/btperceptionviewcone.h>
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scriptasset.h>
+#include "btnodescriptable.h"
+#include <QtCore/QMetaProperty>
 
 REGISTER_OBJECTTYPE(BehaviorTree,Character)
 
 using namespace BehaviorTree;
 
 Character::Character(QObject * parent)
-    : Component(parent)
+        : Component(parent)
 {
     d = new CharacterPrivate;
-    
-    #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
+
+#warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
     setTree(NULL);
     d->self = new btCharacterScriptable();
     d->perception = d->self->perception();
 }
 
 Character::Character(const Character &other, QObject * parent)
-    : Component(parent)
-    , d(other.d)
+        : Component(parent)
+        , d(other.d)
 {
 }
 
@@ -54,15 +59,22 @@ Character::~Character()
 
 void Character::start()
 {
-    #warning search through assets, use game and a gameProject()
+    DEBUG_BLOCK
+    if (tree())
+    {
+        initScriptNodes(tree()->behaviorTree());
+    }
+    else
+    {
+        DEBUG_TEXT(QString("Can not init behavior tree. Behavior tree is not set"));
+    }
 }
-
 
 void
 Character::update(int elapsedMilliseconds)
 {
     //debug(QString("Updating Character"));
-    if(autoThink())
+    if (autoThink())
         think();
     Component::update(elapsedMilliseconds);
 }
@@ -72,12 +84,12 @@ Character::think()
 {
     //debug(QString("Thinking..."));
     QString debugText;
-    if(tree())
+    if (tree())
     {
-        if(tree()->behaviorTree())
+        if (tree()->behaviorTree())
         {
-		d->self->think();		
-		debugText += "Thinking!";
+            d->self->think();
+            debugText += "Thinking!";
         }
         else
             debugText += "Thinking not possible - behavoirTree not set!";
@@ -97,20 +109,22 @@ void
 Character::setTree(Tree* newAsset)
 {
     DEBUG_BLOCK
-    if(newAsset) { DEBUG_TEXT(QString("Setting tree to %1").arg(newAsset->name())) }
+    if (newAsset) {
+        DEBUG_TEXT(QString("Setting tree to %1").arg(newAsset->name()))
+    }
 
-    if(d->tree)
+    if (d->tree)
         disconnect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
     d->tree = newAsset;
-    
-    if(d->tree)
-	d->self->setBehaviorTree(d->tree->behaviorTree());
-    
+
+    if (d->tree)
+        d->self->setBehaviorTree(d->tree->behaviorTree());
+
     QVariant theNewValue;
     theNewValue.setValue<Tree*>(newAsset);
     setProperty("tree", theNewValue);
-    
-    if(d->tree)
+
+    if (d->tree)
         connect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
 }
 
@@ -120,7 +134,7 @@ Character::tree() const
     //return d->tree;
     Tree* returnTree = NULL;
     GluonObject* theTree = this->property("tree").value<GluonObject*>();
-    if(qobject_cast<Tree*>(theTree))
+    if (qobject_cast<Tree*>(theTree))
         returnTree = qobject_cast<Tree*>(theTree);
     return returnTree;
 }
@@ -139,33 +153,93 @@ Character::autoThink() const
 
 qreal Character::knowledgePrecision() const
 {
-	return d->perception->knowledgePrecision();
+    return d->perception->knowledgePrecision();
 }
 
 void Character::setKnowledgePrecision(const qreal& newKnowledgePrecision)
 {
-	d->perception->setKnowledgePrecision(newKnowledgePrecision);
+    d->perception->setKnowledgePrecision(newKnowledgePrecision);
 }
 
 qreal Character::perceptionLimit() const
 {
-	return d->perception->perceptionLimit();
+    return d->perception->perceptionLimit();
 }
 
 void Character::setPerceptionLimit(const qreal& newPerceptionLimit)
 {
-	d->perception->setPerceptionLimit(newPerceptionLimit);
+    d->perception->setPerceptionLimit(newPerceptionLimit);
 }
 
 void Character::addViewCone(btPerceptionViewcone * viewcone)
 {
-	d->perception->addViewCone(viewcone);
+    d->perception->addViewCone(viewcone);
 }
 
 void Character::addPerceptionAtom(btPerceptionAtom * atom)
 {
-	d->perception->addPerceptionAtom(atom);
+    d->perception->addPerceptionAtom(atom);
 }
+
+void Character::initScriptNodes(btNode* node)
+{
+    for (int i = 0; i < node->childCount(); i++)
+        initScriptNodes(node->child(i));
+
+    if (node->type() == btNode::UnusableNodeType)
+    {
+        QList<GluonEngine::ScriptAsset*> scripts = GluonEngine::Game::instance()->gameProject()->findChildren<GluonEngine::ScriptAsset*>();
+
+        foreach(GluonEngine::ScriptAsset* script, scripts)
+        {
+            if (node->className() == script->name().left(script->name().lastIndexOf(".")))
+            {
+                btNodeScriptable * newNode = new btNodeScriptable();
+                
+                for(int i = 0; i < node->metaObject()->propertyCount(); i++)
+                {
+                    QString propertyName = node->metaObject()->property(i).name();
+                    if(propertyName == "objectName")
+                    {
+                        continue;
+                    }
+        
+                    newNode->setProperty(propertyName.toUtf8(), node->property(propertyName.toUtf8()));
+                }
+                
+                for(int i = 0; i < node->dynamicPropertyNames().count(); i++)
+                {
+                    QString propertyName(node->dynamicPropertyNames().at(i));
+                    
+                    newNode->setProperty(propertyName.toUtf8(), node->property(propertyName.toUtf8()));
+                }
+                
+                for(int i = 0; i < node->childCount(); i++)
+                {
+                    newNode->appendChild(node->child(i));
+                    node->child(i)->setParentNode(newNode);
+                }               
+                
+                for(int i = 0; i < newNode->childCount(); i++)
+                {
+                    node->removeChild(i);
+                }
+                
+                btNode* parent = node->parentNode();
+                parent->removeChild(node);
+                parent->appendChild(newNode);
+                newNode->setParentNode(parent);
+                
+                newNode->setScriptAsset(script);
+                
+                delete node;
+            }
+        }
+
+    }
+    gameObject()->debug("error stuff and sage");
+}
+
 Q_EXPORT_PLUGIN2(gluon_plugin_component_behaviortree, BehaviorTree::Character)
 
 #include "character.moc"

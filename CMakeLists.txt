@@ -34,6 +34,7 @@ set(characterComponent_SRCS
 	src/characterprivate.cpp
 	src/character.cpp
 	src/btcharacterscriptable.cpp
+    src/btnodescriptable.cpp
     )
 
 set(viewConeComponent_SRCS
@@ -52,12 +53,6 @@ set(perceptionInfoComponent_SRCS
 	src/btperceptioninfoscriptable.cpp
    )
 
-set(btnodeasset_SRCS
-	src/btnodeasset.cpp
-	src/btnodescriptable.cpp
-   )
-
-
 qt4_automoc(
 	${btAsset_SRCS} 
 	${treeAsset_SRCS} 
@@ -65,7 +60,6 @@ qt4_automoc(
 	${viewConeComponent_SRCS} 
 	${perceptionAtomComponent_SRCS} 
 	${perceptionInfoComponent_SRCS}
-	${btnodeasset_SRCS}
 	)
 
 find_library(LIBBT
@@ -74,7 +68,7 @@ find_library(LIBBT
     PATHS
         c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
         /usr/lib
-	/usr/lib64
+        /usr/lib64
 )
 message("-- Found libbtlib:" ${LIBBT})
 
@@ -84,13 +78,37 @@ find_path(LIBBTPATH
     PATHS
         c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
         /usr/lib
-	/usr/lib64
+        /usr/lib64
 )
 message("-- Found libbt's path:" ${LIBBTPATH})
 
 add_library(btlib SHARED IMPORTED)
 set_property(TARGET btlib PROPERTY IMPORTED_LOCATION ${LIBBT})
 set_property(TARGET btlib PROPERTY IMPORTED_IMPLIB ${LIBBT})
+
+find_library(LIBSCRIPTASSET
+    NAMES
+        libgluon_asset_script.so
+    PATHS
+        c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
+        /usr/lib/gluon
+        /usr/lib64/gluon
+)
+message("-- Found libgluon_asset_script:" ${LIBSCRIPTASSET})
+
+find_path(LIBSCRIPTASSETPATH
+    NAMES
+        libgluon_asset_script.so
+    PATHS
+        c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
+        /usr/lib/gluon
+        /usr/lib64/gluon
+)
+message("-- Found libgluon_asset_script's path:" ${LIBBTPATH})
+
+add_library(scriptasset SHARED IMPORTED)
+set_property(TARGET scriptasset PROPERTY IMPORTED_LOCATION ${LIBSCRIPTASSET})
+set_property(TARGET scriptasset PROPERTY IMPORTED_IMPLIB ${LIBSCRIPTASSET})
 
 add_definitions(-DMAKE_BTCOMPONENT_LIB)
 add_definitions(-DMAKE_GLUON_LIB)
@@ -107,7 +125,7 @@ add_library(gluon_plugin_asset_behaviortree SHARED ${btAsset_SRCS})
 target_link_libraries(gluon_plugin_asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_asset_behaviortree_sub)
 
 add_library(gluon_plugin_component_behaviortree SHARED ${characterComponent_SRCS})
-target_link_libraries(gluon_plugin_component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_asset_behaviortree_sub)
+target_link_libraries(gluon_plugin_component_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_asset_behaviortree_sub scriptasset)
 
 add_library(gluon_plugin_component_viewcone SHARED ${viewConeComponent_SRCS})
 target_link_libraries(gluon_plugin_component_viewcone ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
@@ -118,8 +136,6 @@ target_link_libraries(gluon_plugin_component_perceptionatom ${QT_QTCORE_LIBRARY}
 add_library(gluon_plugin_component_perceptioninfo SHARED ${perceptionInfoComponent_SRCS})
 target_link_libraries(gluon_plugin_component_perceptioninfo ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 
-add_library(gluon_plugin_asset_btnode SHARED ${btnodeasset_SRCS})
-target_link_libraries(gluon_plugin_asset_btnode ${QT_QTCORE_LIBRARY} ${QT_QTSCRIPT_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} btlib gluon_plugin_component_behaviortree)
 install(
     TARGETS
     gluon_plugin_asset_behaviortree
@@ -128,7 +144,6 @@ install(
 	gluon_plugin_component_viewcone
 	gluon_plugin_component_perceptionatom
 	gluon_plugin_component_perceptioninfo
-	gluon_plugin_asset_btnode
     DESTINATION ${LIB_INSTALL_DIR}
 )
 

@@ -24,13 +24,15 @@
 #include <smarts/btbrain.h>
 #include "bt_export.h"
 
+class btNode;
 class btPerceptionViewcone;
 class btPerceptionAtom;
-
+    
 namespace BehaviorTree
 {
     class CharacterPrivate;
     class Tree;
+    class btNodeScriptable;
 
     class BTCOMPONENT_EXPORT Character : public GluonEngine::Component
     {
@@ -71,6 +73,8 @@ namespace BehaviorTree
             void treeReplaced(Tree* newTree);
             
         private:
+            void initScriptNodes(btNode * node);
+            
             QSharedDataPointer<CharacterPrivate> d;
     };
 }

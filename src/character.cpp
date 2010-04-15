@@ -28,7 +28,7 @@
 #include <smarts/btperceptionviewcone.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
-#include <engine/scriptasset.h>
+#include <engine/asset.h>
 #include "btnodescriptable.h"
 #include <QtCore/QMetaProperty>
 
@@ -188,18 +188,18 @@ void Character::initScriptNodes(btNode* node)
 
     if (node->type() == btNode::UnusableNodeType)
     {
-        QList<GluonEngine::ScriptAsset*> scripts = GluonEngine::Game::instance()->gameProject()->findChildren<GluonEngine::ScriptAsset*>();
+        QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findChildren<GluonEngine::Asset*>();
 
-        foreach(GluonEngine::ScriptAsset* script, scripts)
+        foreach(GluonEngine::Asset* asset, assets)
         {
-            if (node->className() == script->name().left(script->name().lastIndexOf(".")))
+            if (asset->metaObject()->className() == "ScriptAsset" && node->className() == asset->name().left(asset->name().lastIndexOf(".")))
             {
                 btNodeScriptable * newNode = new btNodeScriptable();
                 
                 for(int i = 0; i < node->metaObject()->propertyCount(); i++)
                 {
                     QString propertyName = node->metaObject()->property(i).name();
-                    if(propertyName == "objectName")
+                    if(propertyName == "objectName")  
                     {
                         continue;
                     }
@@ -230,7 +230,7 @@ void Character::initScriptNodes(btNode* node)
                 parent->appendChild(newNode);
                 newNode->setParentNode(parent);
                 
-                newNode->setScriptAsset(script);
+                newNode->setScriptAsset(asset);
                 
                 delete node;
             }

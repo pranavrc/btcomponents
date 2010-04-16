@@ -32,7 +32,7 @@ namespace BehaviorTree
     class BTCOMPONENT_EXPORT Asset : public GluonEngine::Asset
     {
         Q_OBJECT
-        GLUON_OBJECT(BehaviorTree::btAsset)
+        GLUON_OBJECT(BehaviorTree::Asset)
         Q_INTERFACES(GluonEngine::Asset)
         
         public:

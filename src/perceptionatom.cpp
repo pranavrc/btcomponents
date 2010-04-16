@@ -78,6 +78,4 @@ bool PerceptionAtom::shouldUpdate() const
 	return d->atom->shouldUpdate();
 }
 
-Q_EXPORT_PLUGIN2(gluon_plugin_component_perceptionatom, BehaviorTree::PerceptionAtom)
-
 #include "perceptionatom.moc"

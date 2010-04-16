@@ -27,7 +27,6 @@ namespace BehaviorTree
 			ViewCone(const ViewCone& other, QObject* parent = 0);
 			~ViewCone();
 			
-			virtual void update(int elapsedMilliseconds);
 			virtual void initialize();
 			
 			qreal offsetAngleHorizontal() const;

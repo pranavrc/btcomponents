@@ -203,6 +203,4 @@ QVariant PerceptionInfo::getAdjustedValue(qreal precision)
     }
 }
 
-Q_EXPORT_PLUGIN2(gluon_plugin_component_perceptioninfo, BehaviorTree::PerceptionInfo)
-
 #include "perceptioninfo.moc"

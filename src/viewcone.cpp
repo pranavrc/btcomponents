@@ -41,13 +41,6 @@ void ViewCone::initialize()
 	}
 }
 
-void ViewCone::update(int elapsedMilliseconds)
-{
-	#warning update perception view cones here
-	
-	Component::update(elapsedMilliseconds);
-}
-
 qreal ViewCone::offsetAngleHorizontal() const
 {
 	return d->viewcone->offsetAngleHorizontal;
@@ -106,7 +99,5 @@ void ViewCone::setKnowledgePrecision(qreal value)
 {
 	d->viewcone->knowledgePrecision = value;
 }
-
-Q_EXPORT_PLUGIN2(gluon_plugin_component_viewcone, BehaviorTree::ViewCone)
 
 #include "viewcone.moc"

@@ -240,6 +240,4 @@ void Character::initScriptNodes(btNode* node)
     gameObject()->debug("error stuff and sage");
 }
 
-Q_EXPORT_PLUGIN2(gluon_plugin_component_behaviortree, BehaviorTree::Character)
-
 #include "character.moc"

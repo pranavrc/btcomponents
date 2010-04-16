@@ -47,6 +47,4 @@ Tree::behaviorTree() const
     return d->behaviorTree;
 }
 
-Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree_sub, BehaviorTree::Tree)
-
 #include "tree.moc"

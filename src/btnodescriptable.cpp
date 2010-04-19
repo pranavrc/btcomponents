@@ -6,10 +6,9 @@
 #include <QtCore/QDebug>
 #include <engine/game.h>
 #include "btcharacterscriptable.h"
+#include "character.h"
 
 using namespace BehaviorTree;
-
-REGISTER_NODETYPE(btNodeScriptable)
 
 class btNodeScriptable::btNodeScriptablePrivate
 {
@@ -25,11 +24,13 @@ class btNodeScriptable::btNodeScriptablePrivate
 		QScriptEngine engine;
 		GluonEngine::Asset * script;
 		QScriptValue runFunc;
+        Character * character;
 };
 
-btNodeScriptable::btNodeScriptable()
+btNodeScriptable::btNodeScriptable(Character * character)
 {
 	d = new btNodeScriptablePrivate();
+    d->character = character;
 }
 
 btNodeScriptable::~btNodeScriptable()
@@ -47,8 +48,7 @@ btNode::status btNodeScriptable::run(btCharacter* self)
 		d->runFunc.call();
 		if (d->engine.uncaughtException().isValid())
         {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            d->character->debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
         }
 	}
 }
@@ -64,8 +64,7 @@ void btNodeScriptable::setScriptAsset(GluonEngine::Asset * asset)
         d->engine.evaluate(d->script->data()->text(), this->className());
         if (d->engine.uncaughtException().isValid())
         {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            d->character->debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             return;
         }
 

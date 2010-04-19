@@ -57,6 +57,10 @@ Character::~Character()
 {
 }
 
+void Character::initialize()
+{
+}
+
 void Character::start()
 {
     DEBUG_BLOCK
@@ -194,7 +198,7 @@ void Character::initScriptNodes(btNode* node)
         {
             if (asset->metaObject()->className() == "ScriptAsset" && node->className() == asset->name().left(asset->name().lastIndexOf(".")))
             {
-                btNodeScriptable * newNode = new btNodeScriptable();
+                btNodeScriptable * newNode = new btNodeScriptable(this);
                 
                 for(int i = 0; i < node->metaObject()->propertyCount(); i++)
                 {

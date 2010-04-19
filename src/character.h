@@ -49,6 +49,7 @@ namespace BehaviorTree
             Character(const Character &other, QObject * parent = 0);
             ~Character();
             
+            virtual void initialize();
 			virtual void start();
             virtual void update(int elapsedMilliseconds);
             

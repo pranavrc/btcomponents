@@ -108,8 +108,7 @@ void PerceptionInfo::start()
             startFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
             {
-                qDebug() << d->engine.uncaughtException().toString();
-                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+                debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             }
         }
     }
@@ -122,8 +121,7 @@ void PerceptionInfo::draw(int timeLapse)
         d->drawFunc.call(QScriptValue(), QScriptValueList() << timeLapse);
         if (d->engine.uncaughtException().isValid())
         {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
         }
     }
 }
@@ -151,8 +149,7 @@ void PerceptionInfo::stop()
             stopFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
             {
-                qDebug() << d->engine.uncaughtException().toString();
-                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+                debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             }
         }
     }
@@ -168,8 +165,7 @@ void PerceptionInfo::cleanup()
             cleanupFunc.call(QScriptValue());
             if (d->engine.uncaughtException().isValid())
             {
-                qDebug() << d->engine.uncaughtException().toString();
-                qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+                debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             }
         }
     }
@@ -192,8 +188,7 @@ QVariant PerceptionInfo::getAdjustedValue(qreal precision)
         QScriptValue returnVal = d->getAdjustedValueFunc.call(QScriptValue(), QScriptValueList() << precision);
         if (d->engine.uncaughtException().isValid())
         {
-            qDebug() << d->engine.uncaughtException().toString();
-            qDebug() << d->engine.uncaughtExceptionBacktrace().join(" ");
+            debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
 			return QVariant();
         }
         else

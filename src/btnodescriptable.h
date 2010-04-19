@@ -7,11 +7,13 @@
 
 namespace BehaviorTree
 {
+    class Character;
+    
 	class BTCOMPONENT_EXPORT btNodeScriptable : public btNode
 	{
 		Q_OBJECT
 		public:
-			Q_INVOKABLE btNodeScriptable();
+			Q_INVOKABLE btNodeScriptable(Character * character);
 			~btNodeScriptable();
 			
 			void setScriptAsset(GluonEngine::Asset * asset);

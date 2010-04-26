@@ -57,7 +57,7 @@ Asset::setFile(const QUrl &newFile)
     
     debug(QString("File opened, attempting to create brain"));
     QTextStream brainReader(brainFile);
-    btBrain* newBrain = new btBrain(brainReader.readAll());
+    btBrain* newBrain = new btBrain(brainReader.readAll(), newFile.toLocalFile());
     brainFile->close();
     delete(brainFile);
     

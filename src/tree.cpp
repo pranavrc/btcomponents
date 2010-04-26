@@ -47,4 +47,16 @@ Tree::behaviorTree() const
     return d->behaviorTree;
 }
 
+void
+Tree::setFile(QString file)
+{
+	d->file = file;
+}
+
+QString
+Tree::getFile()
+{
+	return d->file;
+}
+
 #include "tree.moc"

@@ -34,6 +34,7 @@ namespace BehaviorTree
             ~TreePrivate();
             
             btNode* behaviorTree;
+			QString file;
     };
 }
 

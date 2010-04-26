@@ -44,7 +44,9 @@ namespace BehaviorTree
             
             void setBehaviorTree(btNode* newBehaviorTree);
             btNode* behaviorTree() const;
-            
+		
+			void setFile(QString file);
+			QString getFile();
         Q_SIGNALS:
             void treeChanged(Tree* newTree);
             

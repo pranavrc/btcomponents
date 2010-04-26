@@ -122,7 +122,9 @@ Character::setTree(Tree* newAsset)
     d->tree = newAsset;
 
     if (d->tree)
+	{
         d->self->setBehaviorTree(d->tree->behaviorTree());
+	}
 
     QVariant theNewValue;
     theNewValue.setValue<Tree*>(newAsset);

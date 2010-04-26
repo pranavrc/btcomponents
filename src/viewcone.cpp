@@ -4,6 +4,7 @@
 #include <engine/gameobject.h>
 #include "character.h"
 #include <smarts/btperceptionviewcone.h>
+#include <core/metainfo.h>
 
 REGISTER_OBJECTTYPE(BehaviorTree,ViewCone)
 
@@ -13,7 +14,12 @@ ViewCone::ViewCone(QObject * parent)
 	: Component(parent)
 {
 	d = new ViewConePrivate();
-	d->viewcone = new btPerceptionViewcone();
+    d->viewcone = new btPerceptionViewcone();
+    metaInfo()->setPropertyRange("offsetAngleHorizontal", 0, 180);
+    metaInfo()->setPropertyRange("offsetAngleVertical", 0, 180);
+    metaInfo()->setPropertyRange("extentAngleHorizontal", 0, 180);
+    metaInfo()->setPropertyRange("extentAngleVertical", 0, 180);
+    metaInfo()->setPropertyRange("knowledgePrecision", 0, 1);
 }
 
 ViewCone::ViewCone(const ViewCone &other, QObject* parent)

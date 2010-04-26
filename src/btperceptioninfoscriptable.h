@@ -10,7 +10,7 @@ namespace BehaviorTree
 	{
 		Q_OBJECT
 		public:
-			btPerceptionInfoScriptable(QObject* parent = 0);
+			btPerceptionInfoScriptable(QObject* parent);
 			~btPerceptionInfoScriptable();
 			
 			virtual QVariant getAdjustedValue(qreal precision) const;

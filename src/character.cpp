@@ -41,8 +41,8 @@ Character::Character(QObject * parent)
 {
     d = new CharacterPrivate;
 
-#warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
-    setTree(NULL);
+// #warning Q_PROPERTY does not currently handle namespaced types - see bugreports.qt.nokia.com/browse/QTBUG-2151
+//     setTree(NULL);
     d->self = new btCharacterScriptable();
     d->perception = d->self->perception();
 }
@@ -63,14 +63,14 @@ void Character::initialize()
 
 void Character::start()
 {
-    DEBUG_BLOCK
+//     DEBUG_BLOCK
     if (tree())
     {
         initScriptNodes(tree()->behaviorTree());
     }
     else
     {
-        DEBUG_TEXT(QString("Can not init behavior tree. Behavior tree is not set"));
+        debug("Can not init behavior tree. Behavior tree is not set");
     }
 }
 
@@ -126,9 +126,9 @@ Character::setTree(Tree* newAsset)
         d->self->setBehaviorTree(d->tree->behaviorTree());
 	}
 
-    QVariant theNewValue;
-    theNewValue.setValue<Tree*>(newAsset);
-    setProperty("tree", theNewValue);
+//     QVariant theNewValue;
+//     theNewValue.setValue<Tree*>(newAsset);
+//     setProperty("tree", theNewValue);
 
     if (d->tree)
         connect(d->tree, SIGNAL(treeChanged(Tree*)), this, SLOT(treeReplaced(Tree*)));
@@ -137,12 +137,12 @@ Character::setTree(Tree* newAsset)
 Tree*
 Character::tree() const
 {
-    //return d->tree;
-    Tree* returnTree = NULL;
-    GluonObject* theTree = this->property("tree").value<GluonObject*>();
-    if (qobject_cast<Tree*>(theTree))
-        returnTree = qobject_cast<Tree*>(theTree);
-    return returnTree;
+    return d->tree;
+//     Tree* returnTree = NULL;
+//     GluonObject* theTree = this->property("tree").value<GluonObject*>();
+//     if (qobject_cast<Tree*>(theTree))
+//         returnTree = qobject_cast<Tree*>(theTree);
+//     return returnTree;
 }
 
 void

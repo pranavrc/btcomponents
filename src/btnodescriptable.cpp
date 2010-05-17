@@ -61,8 +61,8 @@ btNode::status btNodeScriptable::run(btCharacter* self)
         }
 	}
 	
-	qDebug() <<"stuf " << this->property(QString("status").toUtf8());
-	return this->property(QString("status").toUtf8()).value<btNode::status>();
+	//return this->property(QString("status").toUtf8()).value<btNode::status>();
+    return (btNode::status)this->property(QString("status").toUtf8()).toInt();
 }
 
 void btNodeScriptable::setScriptAsset(GluonEngine::Asset * asset)

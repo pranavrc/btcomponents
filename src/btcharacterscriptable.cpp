@@ -7,6 +7,7 @@ using namespace BehaviorTree;
 
 btCharacterScriptable::btCharacterScriptable(QObject * parent)
 	: btCharacter()
+    , m_time(0)
 {
     this->setParent(parent);
 }
@@ -42,6 +43,16 @@ void btCharacterScriptable::setOrientation(const QQuaternion& newOrientation)
 btPerception* btCharacterScriptable::perception()
 {
     return btCharacter::perception();
+}
+
+int btCharacterScriptable::time()
+{
+    return m_time;
+}
+
+void btCharacterScriptable::setTime(int time)
+{
+    m_time = time;
 }
 
 #include "btcharacterscriptable.moc"

@@ -32,6 +32,8 @@
 #include "btnodescriptable.h"
 #include <QtCore/QMetaProperty>
 
+#include <QDebug>
+
 REGISTER_OBJECTTYPE(BehaviorTree,Character)
 
 using namespace BehaviorTree;
@@ -189,16 +191,12 @@ void Character::addPerceptionAtom(btPerceptionAtom * atom)
 
 void Character::initScriptNodes(btNode* node)
 {
-    for (int i = 0; i < node->childCount(); i++)
-        initScriptNodes(node->child(i));
-
     if (node->type() == btNode::UnusableNodeType)
     {
         QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findChildren<GluonEngine::Asset*>();
-
         foreach(GluonEngine::Asset* asset, assets)
         {
-            if (asset->metaObject()->className() == "ScriptAsset" && node->className() == asset->name().left(asset->name().lastIndexOf(".")))
+            if (asset->metaObject()->className() == QString("GluonEngine::ScriptAsset") && node->className() == asset->name().left(asset->name().lastIndexOf(".")))
             {
                 btNodeScriptable * newNode = new btNodeScriptable(this);
                 
@@ -232,18 +230,21 @@ void Character::initScriptNodes(btNode* node)
                 }
                 
                 btNode* parent = node->parentNode();
+                int childIndex = parent->childIndex(node);
                 parent->removeChild(node);
-                parent->appendChild(newNode);
+                parent->insertChild(childIndex,newNode);
                 newNode->setParentNode(parent);
-                
                 newNode->setScriptAsset(asset);
-                
+
                 delete node;
+                node = newNode;
+                break;
             }
         }
-
     }
-    gameObject()->debug("error stuff and sage");
+    
+    for (int i = 0; i < node->childCount(); i++)
+        initScriptNodes(node->child(i));
 }
 
 #include "character.moc"

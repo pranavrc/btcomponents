@@ -10,6 +10,8 @@
 
 using namespace BehaviorTree;
 
+Q_DECLARE_METATYPE(btNode::status)
+
 class btNodeScriptable::btNodeScriptablePrivate
 {
 	public:
@@ -40,8 +42,15 @@ btNodeScriptable::~btNodeScriptable()
 
 btNode::status btNodeScriptable::run(btCharacter* self)
 {
-	QScriptValue character = d->engine.newQObject(qobject_cast<btCharacterScriptable*>(self));
-	d->engine.globalObject().setProperty("character", character);
+	QScriptValue character = d->engine.newQObject(qobject_cast<btCharacterScriptable*>(self), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+	d->engine.globalObject().setProperty("Character", character);
+    
+    
+    QScriptValue btnode = d->engine.newQObject(qobject_cast<btNodeScriptable*>(this), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    d->engine.globalObject().setProperty("Node", btnode);
+    
+    QScriptValue game = d->engine.newQObject(GluonEngine::Game::instance(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    d->engine.globalObject().setProperty("Game", game);
 	
 	if(d->runFunc.isFunction())
 	{
@@ -51,6 +60,9 @@ btNode::status btNodeScriptable::run(btCharacter* self)
             d->character->debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
         }
 	}
+	
+	qDebug() <<"stuf " << this->property(QString("status").toUtf8());
+	return this->property(QString("status").toUtf8()).value<btNode::status>();
 }
 
 void btNodeScriptable::setScriptAsset(GluonEngine::Asset * asset)

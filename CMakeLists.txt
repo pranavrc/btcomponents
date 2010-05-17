@@ -75,6 +75,7 @@ ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
 
 add_library(gluon_plugin_asset_behaviortree SHARED ${behaviorTreeComponent_SRCs} )
+set_target_properties(gluon_plugin_asset_behaviortree PROPERTIES VERSION "0.71.0" SOVERSION "0.71.0")
 target_link_libraries(gluon_plugin_asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} ${QT_QTSCRIPT_LIBRARY} btlib)
 
 

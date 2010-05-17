@@ -72,10 +72,10 @@ void PerceptionInfo::initialize()
             return;
         }
 
-        QScriptValue component = d->engine.newQObject(this);
+        QScriptValue component = d->engine.newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
         d->engine.globalObject().setProperty("Component", component);
 
-        QScriptValue gameObj = d->engine.newQObject(gameObject());
+        QScriptValue gameObj = d->engine.newQObject(gameObject(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
         d->engine.globalObject().setProperty("GameObject", gameObj);
 
         QScriptValue game = d->engine.newQObject(GluonEngine::Game::instance(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
@@ -185,7 +185,7 @@ QVariant PerceptionInfo::getAdjustedValue(qreal precision)
 {
 	if(d->getAdjustedValueFunc.isFunction())
     {
-        QScriptValue returnVal = d->getAdjustedValueFunc.call(QScriptValue(), QScriptValueList() << precision);
+        d->getAdjustedValueFunc.call(QScriptValue(), QScriptValueList() << precision);
         if (d->engine.uncaughtException().isValid())
         {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
@@ -193,7 +193,7 @@ QVariant PerceptionInfo::getAdjustedValue(qreal precision)
         }
         else
 		{
-			return returnVal.toVariant();
+			return this->property(QString("adjustedValue").toUtf8());
 		}
     }
 }

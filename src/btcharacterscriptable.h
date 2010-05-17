@@ -10,6 +10,7 @@ namespace BehaviorTree
 	class BTCOMPONENT_EXPORT btCharacterScriptable : public btCharacter
 	{
 		Q_OBJECT
+		Q_PROPERTY(int time READ time WRITE setTime)
 		public:
 			btCharacterScriptable(QObject * parent = 0);
 			~btCharacterScriptable();
@@ -21,6 +22,12 @@ namespace BehaviorTree
 			Q_INVOKABLE virtual void setOrientation(const QQuaternion& newOrientation);
 
 			Q_INVOKABLE virtual btPerception* perception();
+            
+            Q_INVOKABLE virtual int time();
+            Q_INVOKABLE virtual void setTime(int time);
+           
+        private:
+            int m_time;
 	};
 }
 

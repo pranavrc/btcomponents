@@ -18,7 +18,7 @@ endif ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
 set(LIB_SUFFIX		    ${_Init_LIB_SUFFIX} CACHE STRING "The suffix of the system-wide library path")
 set(LIB_INSTALL_DIR         ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}    CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
 
-include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${GLUON_ENGINE_INCLUDES} ${GLUON_CORE_INCLUDES})
+include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${GLUON_ENGINE_INCLUDES} ${GLUON_CORE_INCLUDES} ${QT_QTSCRIPT_INCLUDES})
 
 set(behaviorTreeComponent_SRCs
     src/assetprivate.cpp
@@ -36,6 +36,13 @@ set(behaviorTreeComponent_SRCs
 	src/perceptioninfo.cpp
 	src/perceptioninfoprivate.cpp
 	src/btperceptioninfoscriptable.cpp
+
+    src/bindings/com_trolltech_qt_gui_init.cpp
+    src/bindings/qtscript_QVector2D.cpp
+    src/bindings/qtscript_QVector3D.cpp
+    src/bindings/qtscript_QVector4D.cpp
+    src/bindings/qtscript_QColor.cpp
+    src/bindings/qtscript_QQuaternion.cpp
    )
 
 qt4_automoc(

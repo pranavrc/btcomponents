@@ -80,6 +80,7 @@ void
 Character::update(int elapsedMilliseconds)
 {
     //debug(QString("Updating Character"));
+    this->setProperty("time", elapsedMilliseconds);
     if (autoThink())
         think();
     Component::update(elapsedMilliseconds);
@@ -196,7 +197,9 @@ void Character::initScriptNodes(btNode* node)
         QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findChildren<GluonEngine::Asset*>();
         foreach(GluonEngine::Asset* asset, assets)
         {
-            if (asset->metaObject()->className() == QString("GluonEngine::ScriptAsset") && node->className() == asset->name().left(asset->name().lastIndexOf(".")))
+            if (QString(asset->metaObject()->className()) == QString("GluonEngine::ScriptAsset") 
+                && node->className() == asset->name().left(asset->name().lastIndexOf("."))
+                && QString(node->metaObject()->className()) != QString("BehaviorTree::btNodeScriptable"))
             {
                 btNodeScriptable * newNode = new btNodeScriptable(this);
                 

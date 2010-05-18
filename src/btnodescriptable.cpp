@@ -7,16 +7,21 @@
 #include <engine/game.h>
 #include "btcharacterscriptable.h"
 #include "character.h"
+#include <engine/scene.h>
 
 using namespace BehaviorTree;
 
 Q_DECLARE_METATYPE(btNode::status)
 
+void qtscript_initialize_com_trolltech_qt_gui_bindings(QScriptValue &);
 class btNodeScriptable::btNodeScriptablePrivate
 {
 	public:
 		btNodeScriptablePrivate()
 		{
+            QScriptValue extensionObject = engine.globalObject();
+            qtscript_initialize_com_trolltech_qt_gui_bindings(extensionObject);
+            script = 0;
 		}
 		
 		~btNodeScriptablePrivate()
@@ -42,7 +47,7 @@ btNodeScriptable::~btNodeScriptable()
 
 btNode::status btNodeScriptable::run(btCharacter* self)
 {
-	QScriptValue character = d->engine.newQObject(qobject_cast<btCharacterScriptable*>(self), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+	QScriptValue character = d->engine.newQObject(self, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
 	d->engine.globalObject().setProperty("Character", character);
     
     QScriptValue component = d->engine.newQObject(d->character, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
@@ -51,8 +56,11 @@ btNode::status btNodeScriptable::run(btCharacter* self)
      QScriptValue gameObj = d->engine.newQObject(d->character->gameObject(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
     d->engine.globalObject().setProperty("GameObject", gameObj);
     
-    QScriptValue btnode = d->engine.newQObject(qobject_cast<btNodeScriptable*>(this), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    QScriptValue btnode = d->engine.newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
     d->engine.globalObject().setProperty("Node", btnode);
+    
+    QScriptValue scene = d->engine.newQObject(GluonEngine::Game::instance()->currentScene()->sceneContents(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    d->engine.globalObject().setProperty("Scene", scene);
     
     QScriptValue game = d->engine.newQObject(GluonEngine::Game::instance(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
     d->engine.globalObject().setProperty("Game", game);
@@ -66,7 +74,6 @@ btNode::status btNodeScriptable::run(btCharacter* self)
         }
 	}
 	
-	//return this->property(QString("status").toUtf8()).value<btNode::status>();
     return (btNode::status)this->property(QString("status").toUtf8()).toInt();
 }
 
@@ -84,6 +91,8 @@ void btNodeScriptable::setScriptAsset(GluonEngine::Asset * asset)
             d->character->debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             return;
         }
+        
+        d->runFunc = d->engine.globalObject().property("run");
     }
 }
 

@@ -45,6 +45,11 @@ btNode::status btNodeScriptable::run(btCharacter* self)
 	QScriptValue character = d->engine.newQObject(qobject_cast<btCharacterScriptable*>(self), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
 	d->engine.globalObject().setProperty("Character", character);
     
+    QScriptValue component = d->engine.newQObject(d->character, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    d->engine.globalObject().setProperty("Component", component);
+    
+     QScriptValue gameObj = d->engine.newQObject(d->character->gameObject(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    d->engine.globalObject().setProperty("GameObject", gameObj);
     
     QScriptValue btnode = d->engine.newQObject(qobject_cast<btNodeScriptable*>(this), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
     d->engine.globalObject().setProperty("Node", btnode);
@@ -79,14 +84,6 @@ void btNodeScriptable::setScriptAsset(GluonEngine::Asset * asset)
             d->character->debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
             return;
         }
-
-        QScriptValue btnode = d->engine.newQObject(this);
-		d->engine.globalObject().setProperty("btNode", btnode);
-
-        QScriptValue game = d->engine.newQObject(GluonEngine::Game::instance(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
-        d->engine.globalObject().setProperty("Game", game);
-
-        d->runFunc = d->engine.globalObject().property("run");
     }
 }
 

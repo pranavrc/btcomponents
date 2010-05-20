@@ -81,6 +81,7 @@ Character::update(int elapsedMilliseconds)
 {
     //debug(QString("Updating Character"));
     this->setProperty("time", elapsedMilliseconds);
+    this->setProperty("elapsedTime", QVariant(this->property("elapsedTime").toInt() + elapsedMilliseconds));
     if (autoThink())
         think();
     Component::update(elapsedMilliseconds);
